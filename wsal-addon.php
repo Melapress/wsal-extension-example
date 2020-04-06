@@ -227,7 +227,7 @@ function wsal_addon_template_mu_plugin_add_custom_events_path( $paths ) {
  */
 function wsal_addon_template_add_custom_event_objects( $objects ) {
 	$new_objects = array(
-		'wpforms'               => esc_html__( 'PLUGINNAME', 'wp-security-audit-log' ),
+		'wpforms' => esc_html__( 'PLUGINNAME', 'wp-security-audit-log' ),
 	);
 
 	// combine the two arrays.
