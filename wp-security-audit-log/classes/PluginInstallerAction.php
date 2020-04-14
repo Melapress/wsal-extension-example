@@ -8,14 +8,14 @@
  * @package Wsal
  */
 
-if ( ! class_exists( 'WSAL_PluginInstallerAction' ) ) {
+if ( ! class_exists( 'WSALAddon_PluginInstallerAction' ) ) {
 
 	/**
 	 * Class to handle the installtion and activation of plugins.
 	 *
 	 * @since 4.0.1
 	 */
-	class WSAL_PluginInstallerAction {
+	class WSALAddon_PluginInstallerAction {
 
 		public function __construct() {
 	 		$this->register();
@@ -45,7 +45,7 @@ if ( ! class_exists( 'WSAL_PluginInstallerAction' ) ) {
 				// fail.
 				wp_send_json_error( 'user_cannot_manage_plugins' );
 			}
-			
+
 			$plugin_zip  = ( isset( $_POST['plugin_url'] ) ) ? esc_url_raw( wp_unslash( $_POST['plugin_url'] ) ) : '';
 			$plugin_slug = ( isset( $_POST['plugin_slug'] ) ) ? sanitize_textarea_field( wp_unslash( $_POST['plugin_slug'] ) ) : '';
 

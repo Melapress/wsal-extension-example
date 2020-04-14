@@ -77,7 +77,7 @@ function wsal_addon_template_network_activatation_notice() {
  * Display admin notice if WSAL is not installed.
  */
 function wsal_addon_template_install_notice() {
-	$plugin_installer = new WSAL_PluginInstallerAction();
+	$plugin_installer = new WSALAddon_PluginInstallerAction();
 	$screen = get_current_screen();
 
 	// First lets check if WSAL is installed, but not active.
@@ -118,10 +118,10 @@ function wsal_addon_template_init_install_notice() {
 	if ( ! class_exists( 'WpSecurityAuditLog' ) && ! class_exists( 'WSAL_AlertManager' ) ) {
 		// Check if the notice was already dismissed by the user.
 		if ( get_option( 'wsal_forms_notice_dismissed' ) != true ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- this may be truthy and not explicitly bool
-			if ( ! class_exists( 'WSAL_PluginInstallerAction' ) ) {
+			if ( ! class_exists( 'WSALAddon_PluginInstallerAction' ) ) {
 				require_once 'wp-security-audit-log/classes/PluginInstallerAction.php';
 			}
-			$plugin_installer = new WSAL_PluginInstallerAction();
+			$plugin_installer = new WSALAddon_PluginInstallerAction();
 			if ( is_multisite() && is_network_admin() ) {
 				add_action( 'admin_notices', 'wsal_addon_template_install_notice' );
 				add_action( 'network_admin_notices', 'wsal_addon_template_install_notice', 10, 1 );
