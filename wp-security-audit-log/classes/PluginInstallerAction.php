@@ -28,16 +28,16 @@ if ( ! class_exists( 'WSALAddon_PluginInstallerAction' ) ) {
 		 * @since  4.0.1
 		 */
 		public function register() {
-			add_action( 'wp_ajax_run_addon_install', array( $this, 'run_addon_install' ) );
+			add_action( 'wp_ajax_run_wsal_install', array( $this, 'run_wsal_install' ) );
 		}
 
 		/**
 		 * Run the installer.
 		 *
-		 * @method run_addon_install
+		 * @method run_wsal_install
 		 * @since  4.0.1
 		 */
-		public function run_addon_install() {
+		public function run_wsal_install() {
 			check_ajax_referer( 'wsal-install-addon' );
 
 			// verify users can install plugins before continuing.
