@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Activity Log Extension for PLUGINNAME
- * Plugin URI: https://wpactivitylog.com//integrations/
+ * Plugin URI: https://wpactivitylog.com/extensions/
  * Description: A WP Activity Log plugin extension
  * Text Domain: wp-security-audit-log
  * Author: WP White Security
