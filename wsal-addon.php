@@ -8,6 +8,7 @@
  * Author URI: http://www.wpwhitesecurity.com/
  * Version: 1.0.0
  * License: GPL2
+ * Network: true
  *
  * @package Wsal
  * @subpackage Wsal Custom Events Loader
@@ -40,37 +41,7 @@ function wsal_addon_template_init_actions() {
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
-		if ( is_plugin_active( plugin_basename( __FILE__ ) ) && ! is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
-			add_action( 'admin_notices', 'wsal_addon_template_network_activatation_notice' );
-			add_action( 'admin_init', 'wsal_addon_template_plugin_deactivate' );
-		}
 	}
-}
-
-/**
- * Deactivate our plugin.
- */
-function wsal_addon_template_plugin_deactivate() {
-	if ( ! function_exists( 'deactivate_plugins' ) ) {
-		include_once ABSPATH . 'wp-admin/includes/plugin.php';
-	}
-	if ( ! is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
-		deactivate_plugins( plugin_basename( __FILE__ ) );
-	}
-}
-
-/**
- * Network activation error notice.
- */
-function wsal_addon_template_network_activatation_notice() {
-	$installation_errors  = esc_html__( 'The WP Security Audit Log add-on for PLUGINNAME plugin is a multisite network tool, so it has to be activated at network level.', 'wp-security-audit-log' );
-	$installation_errors .= '<br />';
-	$installation_errors .= '<a href="javascript:;" onclick="window.top.location.href=\'' . esc_url( network_admin_url( 'plugins.php' ) ) . '\'">' . esc_html__( 'Redirect me to the network dashboard', 'wp-security-audit-log' ) . '</a> ';
-	?>
-	<div class="notice notice-error is-dismissible">
-		<p><?php echo wp_kses_post( $installation_errors ); ?></p>
-	</div>
-	<?php
 }
 
 /**
@@ -237,23 +208,6 @@ function wsal_addon_template_add_custom_event_objects( $objects ) {
 }
 
 /**
- * Adds new custom event object text for our plugin
- *
- * @method wsal_addon_template_add_custom_event_object_text
- * @since  1.0.0
- * @param  string $display the text to display.
- * @param  string $object  the current object type.
- * @return string
- */
-function wsal_addon_template_add_custom_event_object_text( $display, $object ) {
-	if ( 'wpforms' === $object ) {
-		$display = esc_html__( 'Forms in WPForms', 'wp-security-audit-log' );
-	}
-
-	return $display;
-}
-
-/**
  * Adds new ignored CPT for our plugin
  *
  * @method wsal_addon_template_add_custom_event_object_text
@@ -313,5 +267,4 @@ function wsal_addon_template_add_custom_meta_format_value( $value, $name ) {
 add_filter( 'wsal_link_filter', 'wsal_addon_template_add_custom_meta_format_value', 10, 2 );
 add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_addon_template_add_custom_meta_format', 10, 2 );
 add_filter( 'wsal_event_objects', 'wsal_addon_template_add_custom_event_objects' );
-add_filter( 'wsal_event_object_text', 'wsal_addon_template_add_custom_event_object_text', 10, 2 );
 add_filter( 'wsal_ignored_custom_post_types', 'wsal_addon_template_add_custom_ignored_cpt' );
