@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WP Security Audit Log Addon for PLUGINNAME
- * Plugin URI: https://www.wpsecurityauditlog.com/integrations/
- * Description: A WP Security Audit Log plugin add-on
+ * Plugin Name: WP Activity Log Extension for PLUGINNAME
+ * Plugin URI: https://wpactivitylog.com//integrations/
+ * Description: A WP Activity Log plugin add-on
  * Text Domain: wp-security-audit-log
  * Author: WP White Security
  * Author URI: http://www.wpwhitesecurity.com/
@@ -48,7 +48,7 @@ function wsal_addon_template_init_actions() {
  * Display admin notice if WSAL is not installed.
  */
 function wsal_addon_template_install_notice() {
-	$plugin_installer = new WSALAddon_PluginInstallerAction();
+	$plugin_installer = new WSALExtension_PluginInstallerAction();
 	$screen = get_current_screen();
 
 	// First lets check if WSAL is installed, but not active.
@@ -57,11 +57,11 @@ function wsal_addon_template_install_notice() {
 			<?php
 				printf(
 					'<p>%1$s <button class="activate-addon button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-					esc_html__( 'WP Security Audit Log is installed but not active.', 'wp-security-audit-log' ),
+					esc_html__( 'WP Activity Log is installed but not active.', 'wp-security-audit-log' ),
 					esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 					esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 					( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
-					esc_html__( 'Activate WP Security Audit Log.', 'wp-security-audit-log' )
+					esc_html__( 'Activate WP Activity Log.', 'wp-security-audit-log' )
 				);
 			?>
 		</div>
@@ -70,11 +70,11 @@ function wsal_addon_template_install_notice() {
 			<?php
 				printf(
 					'<p>%1$s <button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-					esc_html__( 'This is an add-on for the WP Security Audit Log plugin. Please install it to use this add-on.', 'wp-security-audit-log' ),
+					esc_html__( 'This is an add-on for the WP Activity Log plugin. Please install it to use this add-on.', 'wp-security-audit-log' ),
 					esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 					esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 					( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
-					esc_html__( 'Install WP Security Audit Log.', 'wp-security-audit-log' )
+					esc_html__( 'Install WP Activity Log.', 'wp-security-audit-log' )
 				);
 			?>
 		</div>
@@ -89,10 +89,10 @@ function wsal_addon_template_init_install_notice() {
 	if ( ! class_exists( 'WpSecurityAuditLog' ) && ! class_exists( 'WSAL_AlertManager' ) ) {
 		// Check if the notice was already dismissed by the user.
 		if ( get_option( 'wsal_forms_notice_dismissed' ) != true ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- this may be truthy and not explicitly bool
-			if ( ! class_exists( 'WSALAddon_PluginInstallerAction' ) ) {
+			if ( ! class_exists( 'WSALExtension_PluginInstallerAction' ) ) {
 				require_once 'wp-security-audit-log/classes/PluginInstallerAction.php';
 			}
-			$plugin_installer = new WSALAddon_PluginInstallerAction();
+			$plugin_installer = new WSALExtension_PluginInstallerAction();
 			if ( is_multisite() && is_network_admin() ) {
 				add_action( 'admin_notices', 'wsal_addon_template_install_notice' );
 				add_action( 'network_admin_notices', 'wsal_addon_template_install_notice', 10, 1 );
@@ -123,8 +123,8 @@ function wsal_addon_template_scripts() {
 		'ajaxURL'           => admin_url( 'admin-ajax.php' ),
 		'installing'        => esc_html__( 'Installing, please wait', 'wp-security-audit-log' ),
 		'already_installed' => esc_html__( 'Already installed', 'wp-security-audit-log' ),
-		'installed'         => esc_html__( 'Addon installed', 'wp-security-audit-log' ),
-		'activated'         => esc_html__( 'Addon activated', 'wp-security-audit-log' ),
+		'installed'         => esc_html__( 'Extension installed', 'wp-security-audit-log' ),
+		'activated'         => esc_html__( 'Extension activated', 'wp-security-audit-log' ),
 		'failed'            => esc_html__( 'Install failed', 'wp-security-audit-log' ),
 	);
 
