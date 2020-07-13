@@ -5,9 +5,9 @@ $custom_alerts = array(
 		__( 'PLUGINNAME Content', 'wp-security-audit-log' ) => array(
 
 			array(
-				10000,
+				100001,
 				WSAL_LOW,
-				__( 'Test event', 'wp-security-audit-log' ),
+				__( 'Test event X', 'wp-security-audit-log' ),
 				__( 'This is a test event', 'wp-security-audit-log' ),
 				'wpforms',
 				'created',
