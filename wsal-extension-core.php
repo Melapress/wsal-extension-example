@@ -1,7 +1,7 @@
 <?php
 
-if ( ! class_exists( 'WSAL_Extension' ) ) {
-	class WSAL_Extension {
+if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
+	class WSAL_Extension_Core {
 
 		/**
 		 * Instance wrapper.

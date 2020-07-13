@@ -33,7 +33,7 @@
 
 // Include shared code.
 require_once plugin_dir_path( __FILE__ ) . 'wsal-extension-core.php';
-$wsal_extension = WSAL_Extension::get_instance();
+$wsal_extension = WSAL_Extension_Core::get_instance();
 $wsal_extension->init();
 
 /**
