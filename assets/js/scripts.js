@@ -8,7 +8,7 @@ jQuery( document ).ready(
 					{
 						url: WSALWPFormsData.ajaxURL,
 						data: {
-							action: 'wsal_addon_template_dismiss_notice'
+							action: 'wsal_extension_core_dismiss_notice'
 						}
 					}
 				)

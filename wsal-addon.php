@@ -39,12 +39,12 @@ $wsal_extension->init();
 /**
  * Adds new custom event objects for our plugin
  *
- * @method wsal_addon_template_add_custom_event_objects
+ * @method wsal_extension_core_add_custom_event_objects
  * @since  1.0.0
  * @param  array $objects An array of default objects.
  * @return array
  */
-function wsal_addon_template_add_custom_event_objects( $objects ) {
+function wsal_extension_core_add_custom_event_objects( $objects ) {
 	$new_objects = array(
 		'wpforms' => esc_html__( 'PLUGINNAME', 'wp-security-audit-log' ),
 	);
@@ -58,12 +58,12 @@ function wsal_addon_template_add_custom_event_objects( $objects ) {
 /**
  * Adds new ignored CPT for our plugin
  *
- * @method wsal_addon_template_add_custom_event_object_text
+ * @method wsal_extension_core_add_custom_event_object_text
  * @since  1.0.0
  * @param  array $post_types An array of default post_types.
  * @return array
  */
-function wsal_addon_template_add_custom_ignored_cpt( $post_types ) {
+function wsal_extension_core_add_custom_ignored_cpt( $post_types ) {
 	$new_post_types = array(
 		'wpforms',    // WP Forms CPT.
 	);
@@ -76,10 +76,10 @@ function wsal_addon_template_add_custom_ignored_cpt( $post_types ) {
 /**
  * Adds new meta formatting for our plugion
  *
- * @method wsal_addon_template_add_custom_meta_format
+ * @method wsal_extension_core_add_custom_meta_format
  * @since  1.0.0
  */
-function wsal_addon_template_add_custom_meta_format( $value, $name ) {
+function wsal_extension_core_add_custom_meta_format( $value, $name ) {
 	$check_value = (string) $value;
 	if ( '%EditorLinkForm%' === $name ) {
 		if ( 'NULL' !== $check_value ) {
@@ -94,10 +94,10 @@ function wsal_addon_template_add_custom_meta_format( $value, $name ) {
 /**
  * Adds new meta formatting for our plugion
  *
- * @method wsal_addon_template_add_custom_meta_format_value
+ * @method wsal_extension_core_add_custom_meta_format_value
  * @since  1.0.0
  */
-function wsal_addon_template_add_custom_meta_format_value( $value, $name ) {
+function wsal_extension_core_add_custom_meta_format_value( $value, $name ) {
 	$check_value = (string) $value;
 	if ( '%EditorLinkForm%' === $name ) {
 		if ( 'NULL' !== $check_value ) {
@@ -112,7 +112,7 @@ function wsal_addon_template_add_custom_meta_format_value( $value, $name ) {
 /**
  * Add our filters.
  */
-add_filter( 'wsal_link_filter', 'wsal_addon_template_add_custom_meta_format_value', 10, 2 );
-add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_addon_template_add_custom_meta_format', 10, 2 );
-add_filter( 'wsal_event_objects', 'wsal_addon_template_add_custom_event_objects' );
-add_filter( 'wsal_ignored_custom_post_types', 'wsal_addon_template_add_custom_ignored_cpt' );
+add_filter( 'wsal_link_filter', 'wsal_extension_core_add_custom_meta_format_value', 10, 2 );
+add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_extension_core_add_custom_meta_format', 10, 2 );
+add_filter( 'wsal_event_objects', 'wsal_extension_core_add_custom_event_objects' );
+add_filter( 'wsal_ignored_custom_post_types', 'wsal_extension_core_add_custom_ignored_cpt' );
