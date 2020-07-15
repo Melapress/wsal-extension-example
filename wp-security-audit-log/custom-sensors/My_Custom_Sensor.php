@@ -8,12 +8,7 @@
  * @package Wsal
  */
 
-/**
- * Custom sensor class to process WPForms events.
- *
- * @since 1.0.0
- */
-class WSAL_Sensors_PLUGINNAMESensor extends WSAL_AbstractSensor {
+class WSAL_Sensors_My_Custom_Sensor extends WSAL_AbstractSensor {
 
 	/**
 	 * Holds a cached value if the checked alert has recently fired.
