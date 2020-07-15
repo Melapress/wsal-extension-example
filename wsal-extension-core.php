@@ -42,6 +42,14 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 			* Hook into WSAL's action that runs before sensors get loaded.
 			*/
 			add_action( 'wsal_before_sensor_load', array( $this, 'wsal_extension_core_mu_plugin_add_custom_sensors_and_events_dirs' ) );
+			add_action( 'plugins_loaded', array( $this,  'wsal_extension_core_load_plugin_textdomain' ) );
+		}
+
+		/**
+		 * Load plugin text domain.
+		 */
+		public function wsal_extension_core_load_plugin_textdomain() {
+			load_plugin_textdomain( 'wp-security-audit-log', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 		}
 
 		/**

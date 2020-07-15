@@ -1,0 +1,97 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: WP Activity Log Extension for (Plugin name)\n"
+"POT-Creation-Date: 2020-07-15 11:06+0100\n"
+"PO-Revision-Date: 2020-07-15 11:06+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.13\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wsal-addon.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: wp-security-audit-log/classes/PluginInstallerAction.php:63
+msgid "Tried to install a zip or slug that was not in the allowed list"
+msgstr ""
+
+#: wp-security-audit-log/custom-alerts.php:4
+msgid "PLUGINNAME"
+msgstr ""
+
+#: wp-security-audit-log/custom-alerts.php:5
+msgid "PLUGINNAME Content"
+msgstr ""
+
+#: wp-security-audit-log/custom-alerts.php:10
+msgid "Test event X"
+msgstr ""
+
+#: wp-security-audit-log/custom-alerts.php:11
+msgid "This is a test event"
+msgstr ""
+
+#: wsal-extension-core.php:79
+msgid "WP Activity Log is installed but not active."
+msgstr ""
+
+#: wsal-extension-core.php:83
+msgid "Activate WP Activity Log."
+msgstr ""
+
+#: wsal-extension-core.php:92
+msgid "This extension requires the WP Security Audit Log plugin to work."
+msgstr ""
+
+#: wsal-extension-core.php:96
+msgid "Install WP Activity Log."
+msgstr ""
+
+#: wsal-extension-core.php:141
+msgid "Installing, please wait"
+msgstr ""
+
+#: wsal-extension-core.php:142
+msgid "Already installed"
+msgstr ""
+
+#: wsal-extension-core.php:143
+msgid "Extension installed"
+msgstr ""
+
+#: wsal-extension-core.php:144
+msgid "Extension activated"
+msgstr ""
+
+#: wsal-extension-core.php:145
+msgid "Install failed"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Activity Log Extension for (Plugin name)"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wpactivitylog.com/extensions/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A WP Activity Log plugin extension"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WP White Security"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.wpwhitesecurity.com/"
+msgstr ""
