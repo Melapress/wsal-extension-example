@@ -1,4 +1,4 @@
-=== WP Activity Log for PLUGINNAME ===
+=== WP Activity Log for (Your plugin name) ===
 Contributors: WPWhiteSecurity
 Plugin URI: https://wpactivitylog.com/
 License: GPLv3

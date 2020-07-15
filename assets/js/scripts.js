@@ -67,5 +67,6 @@ jQuery( document ).ready(
 				jQuery('[data-plugin="'+ PluginSlug +'"] .activate a')[0].click();
 			}
 		);
+		
 	}
 );
