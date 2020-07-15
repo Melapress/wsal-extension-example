@@ -111,10 +111,10 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 					}
 					$plugin_installer = new WSALExtension_PluginInstallerAction();
 					if ( is_multisite() && is_network_admin() ) {
-						add_action( 'admin_notices', 'wsal_extension_core_install_notice' );
-						add_action( 'network_admin_notices', 'wsal_extension_core_install_notice', 10, 1 );
+						add_action( 'admin_notices', array( $this, 'wsal_extension_core_install_notice' ) );
+						add_action( 'network_admin_notices', array( $this, 'wsal_extension_core_install_notice' ), 10, 1 );
 					} elseif ( ! is_multisite() ) {
-						add_action( 'admin_notices', 'wsal_extension_core_install_notice' );
+						add_action( 'admin_notices', array( $this, 'wsal_extension_core_install_notice' ) );
 					}
 
 				}
