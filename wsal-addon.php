@@ -64,7 +64,6 @@ function wsal_extension_core_add_custom_event_objects( $objects ) {
  * @return array
  */
 function wsal_extension_core_add_custom_ignored_cpt( $post_types ) {
-	error_log( print_r( 'x', true ) );
 	$new_post_types = array(
 		'wpforms',    // WP Forms CPT.
 	);
