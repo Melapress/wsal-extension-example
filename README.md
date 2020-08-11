@@ -1,4 +1,4 @@
-To keep things easier to manage and have a central repo with the core code for all our extensions, we use a master repository which contains the “core” files (these are parts of extensions which don't change, such as the PluginInstaller class, filters for adding custom sensors and so on.
+To keep things easier to manage and have a central repo with the core code for all our extensions, we use a master repository which contains the “core” files (these are parts of extensions which don't change) such as the PluginInstaller class, filters for adding custom sensors and so on.
 
 We use this setup so any updates to the “core” can be simply fetched into all the extensions and merge any changes with ease.
 
