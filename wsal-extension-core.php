@@ -1,5 +1,9 @@
 <?php
 
+/*
+	NOTICE - This is a core file and should not be edited when creating custom extenions.
+*/
+
 if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 	class WSAL_Extension_Core {
 

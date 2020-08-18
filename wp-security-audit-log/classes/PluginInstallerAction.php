@@ -1,4 +1,9 @@
 <?php
+
+/*
+	NOTICE - This is a core file and should not be edited when creating custom extenions.
+*/
+*
 /**
  * Plugin installer action
  *
