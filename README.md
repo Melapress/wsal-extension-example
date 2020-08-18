@@ -4,12 +4,13 @@ We use this setup so any updates to the “core” can be simply fetched into al
 
 # How does it work?
 
-To clarify what this means for the file structure of an extension, let’s take a look at the repo's structure. We have the “wsal-extension-core.php” file, which is where core functions that are shared across all extensions is kept. The main plugin file “wsal-extension” which includes the core file from within the main file and your all set.
+With this repository, we hold only a small amount of code which is typically used in all extensions. The core handles loading the text-domain, notices, plugin installer and functions needed to load custom sensors and events and thats it.
+
+By simply copying the content of this repository into your new extension as a base, you can then create your plugins main file (see example below). The main thing to remember is to include the core class from within your new extension - using the function provided below, you can simply call the "core", passing your plugins text-domain on for loading if you wish.
 
 # Creating a new extension
 
-Create a new repository for your new extension. The naming format for new repos is “wsal-pluginname”. So for example if we are making an extension for wpforms, the repo should be called “wsal-wpforms”
-Clone the master repository or download it and extract its content into your new repository. To clone you can use the following command
+Create a new repository for your new extension. The naming format for new repos is “wsal-pluginname”. So for example if we are making an extension for wpforms, the repo should be called “wsal-wpforms”. Clone the master repository or download it and extract its content into your new repository. To clone you can use the following command
 
 ```bash
 git clone https://github.com/WPWhiteSecurity/wsal-extension-template.git
