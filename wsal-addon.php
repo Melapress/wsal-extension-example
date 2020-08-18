@@ -57,7 +57,7 @@ function wsal_extension_core_add_custom_event_objects( $objects ) {
 	// 	'my_custom_obj' => esc_html__( 'My Object Label (Typically the name of the plugin your creating an event for)', 'wp-security-audit-log' ),
 	// );
 	//
-	// // combine the two arrays.
+	// combine the two arrays.
 	// $objects = array_merge( $objects, $new_objects );
 	//
 	// return $objects;
