@@ -100,7 +100,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 				// Check if the notice was already dismissed by the user.
 				if ( get_option( 'wsal_core_notice_dismissed' ) != true ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- this may be truthy and not explicitly bool
 					if ( ! class_exists( 'WSALExtension_PluginInstallerAction' ) ) {
-						require_once 'core/PluginInstallerAction.php';
+						require_once 'class-plugin-installer.php';
 					}
 					$plugin_installer = new WSALExtension_PluginInstallerAction();
 					if ( is_multisite() && is_network_admin() ) {
