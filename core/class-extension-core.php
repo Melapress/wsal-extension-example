@@ -53,7 +53,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 * Load plugin text domain.
 		 */
 		public function load_plugin_textdomain() {
-			load_plugin_textdomain( 'wp-security-audit-log', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+			load_plugin_textdomain( 'wp-security-audit-log', FALSE, basename( dirname( __FILE__ ) . '/..' ) . '/languages/' );
 		}
 
 		/**
