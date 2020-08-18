@@ -26,9 +26,9 @@ git pull upstream master --allow-unrelated-histories
 ```
 
 # The main extension plugin file
-When working on a new extension, you must ensure you include the core files in your main plugin file - see below for an example. 
+When working on a new extension, you must ensure you include the core files in your main plugin file - see below for an example.
 
-```bash
+```php
 <?php
 /**
  * Plugin Name: WP Activity Log Extension for (Plugin name)
