@@ -173,7 +173,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 */
 		function add_custom_sensors_path( $paths = array() ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
-			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
+			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..' ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
 			return $paths;
 		}
 
@@ -188,7 +188,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 */
 		function add_custom_events_path( $paths ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
-			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' );
+			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..'  ) . 'wp-security-audit-log' );
 			return $paths;
 		}
 
