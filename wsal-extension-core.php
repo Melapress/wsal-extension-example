@@ -34,7 +34,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		}
 
 		/**
-		 * Add actions
+		 * Add actions.
 		 */
 		public function add_actions() {
 			add_action( 'plugins_loaded', array( $this, 'wsal_extension_core_init_actions' ) );
