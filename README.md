@@ -1,73 +1,26 @@
-To keep things easier to manage and have a central repo with the core code for all our extensions, we use a master repository which contains the “core” files (these are parts of extensions which don't change) such as the PluginInstaller class, filters for adding custom sensors and so on.
+# WP Activity Log Custom Extension Example
 
-We use this setup so any updates to the “core” can be simply fetched into all the extensions and merge any changes with ease.
+Welcome to our example plugin template for creating your very own events for WP Activity Log. Using this as an example, you will soon be building your own custom extensions with ease.
 
-# How does it work?
+## Whats included?
 
-With this repository, we hold only a small amount of code which is typically used in all extensions. The core handles loading the text-domain, notices, plugin installer and functions needed to load custom sensors and events and thats it.
+Right out of the box, this repository gives you a sample WordPress plugin which you can use as a template for creating your own extensions - we have also included some handy example functions for other ways to interact with WSAL such as adding posts to the "ignored post types" list etc.
 
-By simply copying the content of this repository into your new extension as a base, you can then create your plugins main file (see example below). The main thing to remember is to include the core class from within your new extension - using the function provided below, you can simply call the "core", passing your plugins text-domain on for loading if you wish.
+Most of your changes/custom code will occur in the main plugin file, as well as within the "wp-security-audit-log" folder. Within this folder you will find the custom-events.php, as well as a custom sensor file, all ready to be editor as you wish.
 
-# Creating a new extension
+## Where do I start?
 
-Create a new repository for your new extension. The naming format for new repos is “wsal-pluginname”. So for example if we are making an extension for wpforms, the repo should be called “wsal-wpforms”. Clone the master repository or download it and extract its content into your new repository. To clone you can use the following command
+ 1. Download or clone this repository.
+ 2. Edit the main plugin file name to reflect your new plugin. This includes your text domain, plugin name, author details and so on.
+ 3. Search/replace the string 'wsal_extension_core_' - try to be unique to avoid "duplicated function" errors.
+ 4. Search/replace the string 'My_Custom_Sensor' - this will be your main sensor name, and again be unique.
 
-```bash
-git clone https://github.com/WPWhiteSecurity/wsal-extension-template.git
-```
+## Registering events
 
-Add the master repository as upstream to new repository with the below command:
-```bash
-git remote add upstream https://github.com/WPWhiteSecurity/wsal-extension-template.git
-```
+Your array of custom events can be added via "wp-security-audit-log/custom-alerts.php" - for details on this array see the [documentation.](https://wpactivitylog.com/support/kb/create-custom-events-wordpress-activity-log/)
 
-From this point onwards, you can now go ahead and develop your new extension as normal. However, should you wish to pull any changes made on the master repository into your extension, run the following from your “child” branch.
-```bash
-git pull upstream master --allow-unrelated-histories
-```
+## Custom Sensor
 
-# The main extension plugin file
-When working on a new extension, you must ensure you include the core files in your main plugin file - see below for an example. Be sure to update the information and text-domain etc accordingly.
+First, be sure to give your sensor a unique name to avoid conflict. The default name "WSAL_Sensors_My_Custom_Sensor" should never be used.
 
-```php
-<?php
-/**
- * Plugin Name: WP Activity Log Extension for (Plugin name)
- * Plugin URI: https://wpactivitylog.com/extensions/
- * Description: A WP Activity Log plugin extension
- * Text Domain: wp-security-audit-log
- * Author: WP White Security
- * Author URI: http://www.wpwhitesecurity.com/
- * Version: 1.0.0
- * License: GPL2
- * Network: true
- *
- * @package Wsal
- * @subpackage Wsal Custom Events Loader
- */
-
-/*
-	Copyright(c) 2020  WP White Security  (email : info@wpwhitesecurity.com)
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as
-	published by the Free Software Foundation.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-/*
-	REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
-*/
-require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
-$plugin_text_domain =  'YOUR TEXT DOMAIN HERE';
-$wsal_extension = \WPWhiteSecurity\ActivityLog\Extensions\Core\WSAL_Extension_Core::get_instance( $plugin_text_domain );
-$wsal_extension->init();
-```
+The file is a simple placeholder class, ready to be filled with whatever you wish so have fun!.
