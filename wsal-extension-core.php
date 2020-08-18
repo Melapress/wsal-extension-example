@@ -41,7 +41,6 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 * Add actions.
 		 */
 		public function add_actions() {
-			add_action( 'plugins_loaded', array( $this, 'wsal_extension_core_init_actions' ) );
 			add_action( 'admin_init', array( $this, 'wsal_extension_core_init_install_notice' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'wsal_extension_core_scripts' ) );
 			add_action( 'wp_ajax_wsal_extension_core_dismiss_notice', array( $this, 'wsal_extension_core_dismiss_notice' ) );
@@ -57,17 +56,6 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 */
 		public function wsal_extension_core_load_plugin_textdomain() {
 			load_plugin_textdomain( 'wp-security-audit-log', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
-		}
-
-		/**
-		 * Check if plugin is being installed via a multisite child site, if so, show notice.
-		 */
-		function wsal_extension_core_init_actions() {
-			if ( is_multisite() && function_exists( 'is_super_admin' ) && is_super_admin() && ! is_network_admin() ) {
-				if ( ! function_exists( 'is_plugin_active' ) ) {
-					include_once ABSPATH . 'wp-admin/includes/plugin.php';
-				}
-			}
 		}
 
 		/**
