@@ -27,7 +27,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		}
 
 		private function __construct() {
-
+			// Nothing.
 		}
 
 		/**
