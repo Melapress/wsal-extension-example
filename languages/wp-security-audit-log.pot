@@ -49,7 +49,7 @@ msgid "Activate WP Activity Log."
 msgstr ""
 
 #: wsal-extension-core.php:92
-msgid "This extension requires the WP Security Audit Log plugin to work."
+msgid "This extension requires the WP Activity Log plugin to work."
 msgstr ""
 
 #: wsal-extension-core.php:96

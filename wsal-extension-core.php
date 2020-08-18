@@ -96,7 +96,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 					<?php
 						printf(
 							'<p>%1$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-							esc_html__( 'This extension requires the WP Security Audit Log plugin to work.', 'wp-security-audit-log' ),
+							esc_html__( 'This extension requires the WP Activity Log plugin to work.', 'wp-security-audit-log' ),
 							esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 							esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 							( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
