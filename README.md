@@ -26,7 +26,7 @@ git pull upstream master --allow-unrelated-histories
 ```
 
 # The main extension plugin file
-When working on a new extension, you must ensure you include the core files in your main plugin file - see below for an example.
+When working on a new extension, you must ensure you include the core files in your main plugin file - see below for an example. Be sure to update the information and text-domain etc accordingly.
 
 ```php
 <?php
@@ -66,6 +66,7 @@ When working on a new extension, you must ensure you include the core files in y
 	REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
 */
 require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
-$wsal_extension = \WPWhiteSecurity\ActivityLog\Extensions\Core\WSAL_Extension_Core::get_instance();
+$plugin_text_domain =  'YOUR TEXT DOMAIN HERE';
+$wsal_extension = \WPWhiteSecurity\ActivityLog\Extensions\Core\WSAL_Extension_Core::get_instance( $plugin_text_domain );
 $wsal_extension->init();
 ```
