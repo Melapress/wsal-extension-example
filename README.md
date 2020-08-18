@@ -19,6 +19,9 @@ Add the master repository as upstream to new repository with the below command:
 ```bash
 git remote add upstream https://github.com/WPWhiteSecurity/wsal-extension-template.git
 ```
+
+At this stage you should then search/replace the function names to something unique (to avoid function conflicts). You can this by replacing the prefix "wsal_extension_core_" within used throughout the main plugin file.
+
 From this point onwards, you can now go ahead and develop your new extension as normal. However, should you wish to pull any changes made on the master repository into your extension, run the following from your “child” branch.
 ```bash
 git pull upstream master --allow-unrelated-histories
