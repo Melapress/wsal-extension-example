@@ -41,33 +41,33 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 * Add actions.
 		 */
 		public function add_actions() {
-			add_action( 'admin_init', array( $this, 'wsal_extension_core_init_install_notice' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'wsal_extension_core_scripts' ) );
-			add_action( 'wp_ajax_wsal_extension_core_dismiss_notice', array( $this, 'wsal_extension_core_dismiss_notice' ) );
+			add_action( 'admin_init', array( $this, 'init_install_notice' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'wp_ajax_dismiss_notice', array( $this, 'dismiss_notice' ) );
 			/**
 			* Hook into WSAL's action that runs before sensors get loaded.
 			*/
-			add_action( 'wsal_before_sensor_load', array( $this, 'wsal_extension_core_mu_plugin_add_custom_sensors_and_events_dirs' ) );
-			add_action( 'plugins_loaded', array( $this,  'wsal_extension_core_load_plugin_textdomain' ) );
+			add_action( 'wsal_before_sensor_load', array( $this, 'add_custom_sensors_and_events_dirs' ) );
+			add_action( 'plugins_loaded', array( $this,  'load_plugin_textdomain' ) );
 		}
 
 		/**
 		 * Load plugin text domain.
 		 */
-		public function wsal_extension_core_load_plugin_textdomain() {
+		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'wp-security-audit-log', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 		}
 
 		/**
 		 * Display admin notice if WSAL is not installed.
 		 */
-		function wsal_extension_core_install_notice() {
+		function install_notice() {
 			$plugin_installer = new WSALExtension_PluginInstallerAction();
 			$screen           = get_current_screen();
 
 			// First lets check if WSAL is installed, but not active.
 			if ( $plugin_installer->is_plugin_installed( 'wp-security-audit-log/wp-security-audit-log.php' ) && ! is_plugin_active( 'wp-security-audit-log/wp-security-audit-log.php' ) ) : ?>
-				<div class="notice notice-success is-dismissible wsal-addons-template-notice">
+				<div class="notice notice-success is-dismissible wsal-installer-notice">
 					<?php
 						printf(
 							'<p>%1$s &nbsp;&nbsp;<button class="activate-addon button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
@@ -80,7 +80,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 					?>
 				</div>
 			<?php elseif ( ! class_exists( 'WpSecurityAuditLog' ) ) : ?>
-				<div class="notice notice-success is-dismissible wsal-addons-template-notice">
+				<div class="notice notice-success is-dismissible wsal-installer-notice">
 					<?php
 						printf(
 							'<p>%1$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
@@ -96,35 +96,35 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 			endif;
 		}
 
-		function wsal_extension_core_init_install_notice() {
+		function init_install_notice() {
 			// Check if main plugin is installed.
 			if ( ! class_exists( 'WpSecurityAuditLog' ) && ! class_exists( 'WSAL_AlertManager' ) ) {
 				// Check if the notice was already dismissed by the user.
-				if ( get_option( 'wsal_forms_notice_dismissed' ) != true ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- this may be truthy and not explicitly bool
+				if ( get_option( 'wsal_core_notice_dismissed' ) != true ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- this may be truthy and not explicitly bool
 					if ( ! class_exists( 'WSALExtension_PluginInstallerAction' ) ) {
-						require_once 'wp-security-audit-log/classes/PluginInstallerAction.php';
+						require_once 'core/PluginInstallerAction.php';
 					}
 					$plugin_installer = new WSALExtension_PluginInstallerAction();
 					if ( is_multisite() && is_network_admin() ) {
-						add_action( 'admin_notices', array( $this, 'wsal_extension_core_install_notice' ) );
-						add_action( 'network_admin_notices', array( $this, 'wsal_extension_core_install_notice' ), 10, 1 );
+						add_action( 'admin_notices', array( $this, 'install_notice' ) );
+						add_action( 'network_admin_notices', array( $this, 'install_notice' ), 10, 1 );
 					} elseif ( ! is_multisite() ) {
-						add_action( 'admin_notices', array( $this, 'wsal_extension_core_install_notice' ) );
+						add_action( 'admin_notices', array( $this, 'install_notice' ) );
 					}
 
 				}
 			} else {
 				// Reset the notice if the class is not found.
-				delete_option( 'wsal_forms_notice_dismissed' );
+				delete_option( 'wsal_core_notice_dismissed' );
 			}
 		}
 
 		/**
 		 * Load our js file to handle ajax.
 		 */
-		function wsal_extension_core_scripts() {
+		function enqueue_scripts() {
 			wp_enqueue_script(
-				'wsal-addons-template-scripts',
+				'wsal-core-scripts',
 				plugins_url( 'assets/js/scripts.js', __FILE__ ),
 				array( 'jquery' ),
 				'1.0',
@@ -141,15 +141,15 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 			);
 
 			// Send ajax url to JS file.
-			wp_localize_script( 'wsal-addons-template-scripts', 'WSALWPFormsData', $script_data );
+			wp_localize_script( 'wsal-core-scripts', 'WSALCoreData', $script_data );
 		}
 
 
 		/**
 		 * Update option if user clicks dismiss.
 		 */
-		function wsal_extension_core_dismiss_notice() {
-			update_option( 'wsal_forms_notice_dismissed', true );
+		function dismiss_notice() {
+			update_option( 'wsal_core_notice_dismissed', true );
 		}
 
 		/**
@@ -158,9 +158,9 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 *
 		 * @method wsal_mu_plugin_add_custom_sensors_and_events_dirs
 		 */
-		function wsal_extension_core_mu_plugin_add_custom_sensors_and_events_dirs( $sensor ) {
-			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'wsal_extension_core_mu_plugin_custom_sensors_path' ) );
-			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'wsal_extension_core_mu_plugin_add_custom_events_path' ) );
+		function add_custom_sensors_and_events_dirs( $sensor ) {
+			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'add_custom_sensors_path' ) );
+			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'add_custom_events_path' ) );
 			return $sensor;
 		}
 
@@ -173,7 +173,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 * @param  array $paths An array containing paths on the filesystem.
 		 * @return array
 		 */
-		function wsal_extension_core_mu_plugin_custom_sensors_path( $paths = array() ) {
+		function add_custom_sensors_path( $paths = array() ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
 			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
 			return $paths;
@@ -188,7 +188,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 * @param  array $paths An array containing paths on the filesystem.
 		 * @return array
 		 */
-		function wsal_extension_core_mu_plugin_add_custom_events_path( $paths ) {
+		function add_custom_events_path( $paths ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
 			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' );
 			return $paths;
