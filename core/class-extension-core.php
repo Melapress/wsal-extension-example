@@ -60,7 +60,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 * Display admin notice if WSAL is not installed.
 		 */
 		function install_notice() {
-			$plugin_installer = new \WPWhiteSecurity\ActivityLog\Extensions\Core\WSALExtension_PluginInstallerAction();
+			$plugin_installer = new \WSALExtension_PluginInstallerAction();
 			$screen           = get_current_screen();
 
 			// First lets check if WSAL is installed, but not active.
@@ -102,7 +102,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 					if ( ! class_exists( 'WSALExtension_PluginInstallerAction' ) ) {
 						require_once 'class-plugin-installer.php';
 					}
-					$plugin_installer = new \WPWhiteSecurity\ActivityLog\Extensions\Core\WSALExtension_PluginInstallerAction();
+					$plugin_installer = new \WSALExtension_PluginInstallerAction();
 					if ( is_multisite() && is_network_admin() ) {
 						add_action( 'admin_notices', array( $this, 'install_notice' ) );
 						add_action( 'network_admin_notices', array( $this, 'install_notice' ), 10, 1 );

@@ -1,7 +1,5 @@
 <?php
 
-namespace WPWhiteSecurity\ActivityLog\Extensions\Core;
-
 /**
  * Plugin installer action
  *
