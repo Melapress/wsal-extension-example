@@ -13,12 +13,23 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		private static $instance = null;
 
 		/**
+		 * Extension text-domain.
+		 *
+		 * @var string
+		 */
+		public static $extension_text_domain;
+
+		/**
 		 * Return plugin instance.
 		 */
-		public static function get_instance() {
+		public static function get_instance( $text_domain = '' ) {
 
 			if ( null === self::$instance ) {
 				self::$instance = new self();
+			}
+
+			if ( ! empty( $text_domain ) ) {
+				self::$extension_text_domain = $text_domain;
 			}
 
 			return self::$instance;
@@ -53,7 +64,11 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 * Load plugin text domain.
 		 */
 		public function load_plugin_textdomain() {
-			load_plugin_textdomain( 'wp-security-audit-log', FALSE, basename( dirname( __FILE__ ) . '/..' ) . '/languages/' );
+			$language_path = basename( dirname( dirname( __FILE__ ) ) );
+			load_plugin_textdomain( 'wp-security-audit-log', FALSE, $language_path . '/languages' );
+			if ( isset( self::$extension_text_domain ) && ! empty( self::$extension_text_domain ) ) {
+				load_plugin_textdomain( self::$extension_text_domain, FALSE, $language_path . '/languages' );
+			}
 		}
 
 		/**
