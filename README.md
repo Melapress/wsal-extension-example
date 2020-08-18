@@ -9,7 +9,7 @@ To clarify what this means for the file structure of an extension, let’s take 
 # Creating a new extension
 
 Create a new repository for your new extension. The naming format for new repos is “wsal-pluginname”. So for example if we are making an extension for wpforms, the repo should be called“wsal-wpforms”
-Clone the master repository into your new repository by using the below command:
+Clone the master repository or download it and extract its content into your new repository. To clone you can use the following command
 
 ```bash
 git clone https://github.com/WPWhiteSecurity/wsal-extension-template.git
@@ -21,7 +21,7 @@ git remote add upstream https://github.com/WPWhiteSecurity/wsal-extension-templa
 ```
 From this point onwards, you can now go ahead and develop your new extension as normal. However, should you wish to pull any changes made on the master repository into your extension, run the following from your “child” branch.
 ```bash
-git pull upstream master
+git pull upstream master --allow-unrelated-histories
 ```
 
 # The main extension plugin file
