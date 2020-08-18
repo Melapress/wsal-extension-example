@@ -33,6 +33,9 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 			$this->add_actions();
 		}
 
+		/**
+		 * Add actions
+		 */
 		public function add_actions() {
 			add_action( 'plugins_loaded', array( $this, 'wsal_extension_core_init_actions' ) );
 			add_action( 'admin_init', array( $this, 'wsal_extension_core_init_install_notice' ) );
