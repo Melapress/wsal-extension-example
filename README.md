@@ -65,5 +65,4 @@ When working on a new extension, you must ensure you include the core files in y
     */
     require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
     $plugin_text_domain =  'YOUR TEXT DOMAIN HERE';
-    $wsal_extension = \WPWhiteSecurity\ActivityLog\Extensions\Core\WSAL_Extension_Core::get_instance( $plugin_text_domain );
-    $wsal_extension->init();
+    $wsal_extension = new \WPWhiteSecurity\ActivityLog\Extensions\Core\WSAL_Extension_Core( $plugin_text_domain );
