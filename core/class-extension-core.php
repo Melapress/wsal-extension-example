@@ -6,43 +6,16 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 	class WSAL_Extension_Core {
 
 		/**
-		 * Instance wrapper.
-		 *
-		 * @var object
-		 */
-		private static $instance = null;
-
-		/**
 		 * Extension text-domain.
 		 *
 		 * @var string
 		 */
-		public static $extension_text_domain;
+	 	private $extension_text_domain;
 
-		/**
-		 * Return plugin instance.
-		 */
-		public static function get_instance( $text_domain = '' ) {
-
-			if ( null === self::$instance ) {
-				self::$instance = new self();
-			}
-
+		public function __construct( $text_domain = '' ) {
 			if ( ! empty( $text_domain ) ) {
-				self::$extension_text_domain = $text_domain;
+				$this->extension_text_domain = $text_domain;
 			}
-
-			return self::$instance;
-		}
-
-		private function __construct() {
-			// Nothing.
-		}
-
-		/**
-		 * Fire up classes.
-		 */
-		public function init() {
 			$this->add_actions();
 		}
 
@@ -57,7 +30,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 			* Hook into WSAL's action that runs before sensors get loaded.
 			*/
 			add_action( 'wsal_before_sensor_load', array( $this, 'add_custom_sensors_and_events_dirs' ) );
-			add_action( 'plugins_loaded', array( $this,  'load_plugin_textdomain' ) );
+			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 		}
 
 		/**
@@ -65,9 +38,9 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 */
 		public function load_plugin_textdomain() {
 			$language_path = basename( dirname( dirname( __FILE__ ) ) );
-			load_plugin_textdomain( 'wp-security-audit-log', FALSE, $language_path . '/languages' );
-			if ( isset( self::$extension_text_domain ) && ! empty( self::$extension_text_domain ) ) {
-				load_plugin_textdomain( self::$extension_text_domain, FALSE, $language_path . '/languages' );
+			load_plugin_textdomain( 'wp-security-audit-log', false, $language_path . '/languages' );
+			if ( isset( $this->extension_text_domain ) && ! empty( $this->extension_text_domain ) ) {
+				load_plugin_textdomain( $this->extension_text_domain, false, $language_path . '/languages' );
 			}
 		}
 
@@ -105,7 +78,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 						);
 					?>
 				</div>
-			<?php
+				<?php
 			endif;
 		}
 
@@ -124,7 +97,6 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 					} elseif ( ! is_multisite() ) {
 						add_action( 'admin_notices', array( $this, 'install_notice' ) );
 					}
-
 				}
 			} else {
 				// Reset the notice if the class is not found.
@@ -203,7 +175,7 @@ if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
 		 */
 		function add_custom_events_path( $paths ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
-			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..'  ) . 'wp-security-audit-log' );
+			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..' ) . 'wp-security-audit-log' );
 			return $paths;
 		}
 
