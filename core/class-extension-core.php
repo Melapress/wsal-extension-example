@@ -1,9 +1,9 @@
 <?php
 
-namespace WPWhiteSecurity\ActivityLog\Extensions\Core;
+namespace WPWhiteSecurity\ActivityLog\Extensions\Common;
 
-if ( ! class_exists( 'WSAL_Extension_Core' ) ) {
-	class WSAL_Extension_Core {
+if ( ! class_exists( 'Core' ) ) {
+	class Core {
 
 		/**
 		 * Extension text-domain.
