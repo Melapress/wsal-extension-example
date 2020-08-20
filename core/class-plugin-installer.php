@@ -63,7 +63,7 @@ if ( ! class_exists( 'PluginInstaller' ) ) {
 			if ( ! $valid ) {
 				wp_send_json_error(
 					array(
-						'message' => esc_html__( 'Tried to install a zip or slug that was not in the allowed list', 'wp-security-audit-log' ),
+						'message' => esc_html__( 'Tried to install a zip or slug that was not in the allowed list', 'wsal-extension-core' ),
 					)
 				);
 			}

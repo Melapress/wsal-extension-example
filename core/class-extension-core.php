@@ -59,7 +59,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 					<?php
 						printf(
 							'<p>%1$s &nbsp;&nbsp;<button class="activate-addon button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-							esc_html__( 'WP Activity Log is installed but not active.', 'wp-security-audit-log' ),
+							esc_html__( 'WP Activity Log is installed but not active.', 'wsal-extension-core' ),
 							esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 							esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 							( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
@@ -72,11 +72,11 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 					<?php
 						printf(
 							'<p>%1$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-							esc_html__( 'This extension requires the WP Activity Log plugin to work.', 'wp-security-audit-log' ),
+							esc_html__( 'This extension requires the WP Activity Log plugin to work.', 'wsal-extension-core' ),
 							esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 							esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 							( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
-							esc_html__( 'Install WP Activity Log.', 'wp-security-audit-log' )
+							esc_html__( 'Install WP Activity Log.', 'wsal-extension-core' )
 						);
 					?>
 				</div>
@@ -120,11 +120,11 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 
 			$script_data = array(
 				'ajaxURL'           => admin_url( 'admin-ajax.php' ),
-				'installing'        => esc_html__( 'Installing, please wait', 'wp-security-audit-log' ),
-				'already_installed' => esc_html__( 'Already installed', 'wp-security-audit-log' ),
-				'installed'         => esc_html__( 'Extension installed', 'wp-security-audit-log' ),
-				'activated'         => esc_html__( 'Extension activated', 'wp-security-audit-log' ),
-				'failed'            => esc_html__( 'Install failed', 'wp-security-audit-log' ),
+				'installing'        => esc_html__( 'Installing, please wait', 'wsal-extension-core' ),
+				'already_installed' => esc_html__( 'Already installed', 'wsal-extension-core' ),
+				'installed'         => esc_html__( 'Extension installed', 'wsal-extension-coreg' ),
+				'activated'         => esc_html__( 'Extension activated', 'wsal-extension-core' ),
+				'failed'            => esc_html__( 'Install failed', 'wsal-extension-core' ),
 			);
 
 			// Send ajax url to JS file.
