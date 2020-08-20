@@ -2,7 +2,7 @@
 
 namespace WPWhiteSecurity\ActivityLog\Extensions\Common;
 
-if ( ! class_exists( 'Core' ) ) {
+if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 	class Core {
 
 		/**
