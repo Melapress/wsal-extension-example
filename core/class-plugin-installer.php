@@ -1,5 +1,7 @@
 <?php
 
+namespace WPWhiteSecurity\ActivityLog\Extensions\Common;
+
 /**
  * Plugin installer action
  *
@@ -9,14 +11,14 @@
  * @package Wsal
  */
 
-if ( ! class_exists( 'WSALExtension_PluginInstallerAction' ) ) {
+if ( ! class_exists( 'PluginInstaller' ) ) {
 
 	/**
 	 * Class to handle the installtion and activation of plugins.
 	 *
 	 * @since 4.0.1
 	 */
-	class WSALExtension_PluginInstallerAction {
+	class PluginInstaller {
 
 		public function __construct() {
 	 		$this->register();
