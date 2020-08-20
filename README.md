@@ -42,7 +42,7 @@ When working on a new extension, you must ensure you include the core files in y
      * License: GPL2
      * Network: true
      *
-     * @package Wsal
+     * @package WsalExtensionCore
      * @subpackage Wsal Custom Events Loader
      */
 
@@ -63,6 +63,6 @@ When working on a new extension, you must ensure you include the core files in y
     /*
      REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
     */
-    require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
+    require_once plugin_dir_path( __FILE__ ) . 'core' . DIRECTORY_SEPARATOR . 'class-extension-core.php';
     $plugin_text_domain =  'YOUR TEXT DOMAIN HERE';
     $wsal_extension = new \WPWhiteSecurity\ActivityLog\Extensions\Common\Core( $plugin_text_domain );
