@@ -2,7 +2,10 @@
 
 namespace WPWhiteSecurity\ActivityLog\Extensions\Common;
 
+use \WPWhiteSecurity\ActivityLog\Extensions\Common\PluginInstaller as PluginInstaller;
+
 if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
+
 	class Core {
 
 		/**
@@ -10,7 +13,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 *
 		 * @var string
 		 */
-	 	private $extension_text_domain;
+		private $extension_text_domain;
 
 		public function __construct( $text_domain = '' ) {
 			if ( ! empty( $text_domain ) ) {
@@ -27,8 +30,8 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'wp_ajax_dismiss_notice', array( $this, 'dismiss_notice' ) );
 			/**
-			* Hook into WSAL's action that runs before sensors get loaded.
-			*/
+			 * Hook into WSAL's action that runs before sensors get loaded.
+			 */
 			add_action( 'wsal_before_sensor_load', array( $this, 'add_custom_sensors_and_events_dirs' ) );
 			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 		}
@@ -36,51 +39,51 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		/**
 		 * Load plugin text domain.
 		 */
-		 public function load_plugin_textdomain() {
- 			$language_path      = basename( dirname( dirname( __FILE__ ) ) );
- 			$core_language_path = basename( dirname( __FILE__ ) );
- 			$core_language_path = $language_path . '/' . $core_language_path . '/languages';
- 			load_plugin_textdomain( 'wsal-extension-core', false, $core_language_path );
- 			if ( isset( $this->extension_text_domain ) && ! empty( $this->extension_text_domain ) ) {
- 				load_plugin_textdomain( $this->extension_text_domain, false, $language_path . '/languages' );
- 			}
- 		}
+		public function load_plugin_textdomain() {
+			$language_path      = basename( dirname( dirname( __FILE__ ) ) );
+			$core_language_path = basename( dirname( __FILE__ ) );
+			$core_language_path = $language_path . '/' . $core_language_path . '/languages';
+			load_plugin_textdomain( 'wsal-extension-core', false, $core_language_path );
+			if ( isset( $this->extension_text_domain ) && ! empty( $this->extension_text_domain ) ) {
+				load_plugin_textdomain( $this->extension_text_domain, false, $language_path . '/languages' );
+			}
+		}
 
 		/**
 		 * Display admin notice if WSAL is not installed.
 		 */
 		function install_notice() {
-			$plugin_installer = new \WPWhiteSecurity\ActivityLog\Extensions\Common\PluginInstaller();
+			$plugin_installer = new PluginInstaller();
 			$screen           = get_current_screen();
 
 			// First lets check if WSAL is installed, but not active.
 			if ( $plugin_installer->is_plugin_installed( 'wp-security-audit-log/wp-security-audit-log.php' ) && ! is_plugin_active( 'wp-security-audit-log/wp-security-audit-log.php' ) ) : ?>
-				<div class="notice notice-success is-dismissible wsal-installer-notice">
+                <div class="notice notice-success is-dismissible wsal-installer-notice">
 					<?php
-						printf(
-							'<p>%1$s &nbsp;&nbsp;<button class="activate-addon button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-							esc_html__( 'WP Activity Log is installed but not active.', 'wsal-extension-core' ),
-							esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
-							esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
-							( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
-							esc_html__( 'Activate WP Activity Log.', 'wp-security-audit-log' )
-						);
+					printf(
+						'<p>%1$s &nbsp;&nbsp;<button class="activate-addon button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
+						esc_html__( 'WP Activity Log is installed but not active.', 'wsal-extension-core' ),
+						esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
+						esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
+						( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
+						esc_html__( 'Activate WP Activity Log.', 'wp-security-audit-log' )
+					);
 					?>
-				</div>
+                </div>
 			<?php elseif ( ! class_exists( 'WpSecurityAuditLog' ) ) : ?>
-				<div class="notice notice-success is-dismissible wsal-installer-notice">
+                <div class="notice notice-success is-dismissible wsal-installer-notice">
 					<?php
-						printf(
-							'<p>%1$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-							esc_html__( 'This extension requires the WP Activity Log plugin to work.', 'wsal-extension-core' ),
-							esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
-							esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
-							( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
-							esc_html__( 'Install WP Activity Log.', 'wsal-extension-core' )
-						);
+					printf(
+						'<p>%1$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
+						esc_html__( 'This extension requires the WP Activity Log plugin to work.', 'wsal-extension-core' ),
+						esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
+						esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
+						( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
+						esc_html__( 'Install WP Activity Log.', 'wsal-extension-core' )
+					);
 					?>
-				</div>
-				<?php
+                </div>
+			<?php
 			endif;
 		}
 
@@ -92,7 +95,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 					if ( ! class_exists( 'PluginInstaller' ) ) {
 						require_once 'class-plugin-installer.php';
 					}
-					$plugin_installer = new \WPWhiteSecurity\ActivityLog\Extensions\Common\PluginInstaller();
+					$plugin_installer = new PluginInstaller();
 					if ( is_multisite() && is_network_admin() ) {
 						add_action( 'admin_notices', array( $this, 'install_notice' ) );
 						add_action( 'network_admin_notices', array( $this, 'install_notice' ), 10, 1 );
@@ -142,12 +145,11 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		/**
 		 * Used to hook into the `wsal_before_sensor_load` action to add some filters
 		 * for including custom sensor and event directories.
-		 *
-		 * @method wsal_mu_plugin_add_custom_sensors_and_events_dirs
 		 */
 		function add_custom_sensors_and_events_dirs( $sensor ) {
 			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'add_custom_sensors_path' ) );
 			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'add_custom_events_path' ) );
+
 			return $sensor;
 		}
 
@@ -155,14 +157,15 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 * Adds a new path to the sensors directory array which is checked for when the
 		 * plugin loads the sensors.
 		 *
-		 * @method wsal_mu_plugin_custom_sensors_path
-		 * @since  1.0.0
-		 * @param  array $paths An array containing paths on the filesystem.
+		 * @param array $paths An array containing paths on the filesystem.
+		 *
 		 * @return array
+		 * @since  1.0.0
 		 */
 		function add_custom_sensors_path( $paths = array() ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
 			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..' ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
+
 			return $paths;
 		}
 
@@ -170,14 +173,15 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 * Adds a new path to the custom events directory array which is checked for
 		 * when the plugin loads all of the events.
 		 *
-		 * @method wsal_mu_plugin_add_custom_events_path
-		 * @since  1.0.0
-		 * @param  array $paths An array containing paths on the filesystem.
+		 * @param array $paths An array containing paths on the filesystem.
+		 *
 		 * @return array
+		 * @since  1.0.0
 		 */
 		function add_custom_events_path( $paths ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
 			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..' ) . 'wp-security-audit-log' );
+
 			return $paths;
 		}
 
