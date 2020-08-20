@@ -36,13 +36,15 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		/**
 		 * Load plugin text domain.
 		 */
-		public function load_plugin_textdomain() {
-			$language_path = basename( dirname( dirname( __FILE__ ) ) );
-			load_plugin_textdomain( 'wp-security-audit-log', false, $language_path . '/languages' );
-			if ( isset( $this->extension_text_domain ) && ! empty( $this->extension_text_domain ) ) {
-				load_plugin_textdomain( $this->extension_text_domain, false, $language_path . '/languages' );
-			}
-		}
+		 public function load_plugin_textdomain() {
+ 			$language_path      = basename( dirname( dirname( __FILE__ ) ) );
+ 			$core_language_path = basename( dirname( __FILE__ ) );
+ 			$core_language_path = $language_path . '/' . $core_language_path . '/languages';
+ 			load_plugin_textdomain( 'wsal-extension-core', false, $core_language_path );
+ 			if ( isset( $this->extension_text_domain ) && ! empty( $this->extension_text_domain ) ) {
+ 				load_plugin_textdomain( $this->extension_text_domain, false, $language_path . '/languages' );
+ 			}
+ 		}
 
 		/**
 		 * Display admin notice if WSAL is not installed.
