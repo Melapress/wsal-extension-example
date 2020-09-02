@@ -15,9 +15,29 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		private $extension_text_domain;
 
-		public function __construct( $text_domain = '' ) {
-			if ( ! empty( $text_domain ) ) {
-				$this->extension_text_domain = $text_domain;
+		/**
+		 * Extension custom alert path.
+		 *
+		 * @var string
+		 */
+		private $custom_alert_path;
+
+		/**
+		 * Extension sensor path.
+		 *
+		 * @var string
+		 */
+		private $custom_sensor_path;
+
+		public function __construct( $core_settings = '' ) {
+			if ( ! empty( $core_settings ) && isset( $core_settings['text_domain'] ) ) {
+				$this->extension_text_domain = $core_settings['text_domain'];
+			}
+			if ( ! empty( $core_settings ) && isset( $core_settings['custom_alert_path'] ) ) {
+				$this->custom_alert_path = $core_settings['custom_alert_path'];
+			}
+			if ( ! empty( $core_settings ) && isset( $core_settings['custom_sensor_path'] ) ) {
+				$this->custom_sensor_path = $core_settings['custom_sensor_path'];
 			}
 			$this->add_actions();
 		}
@@ -149,7 +169,6 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		function add_custom_sensors_and_events_dirs( $sensor ) {
 			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'add_custom_sensors_path' ) );
 			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'add_custom_events_path' ) );
-
 			return $sensor;
 		}
 
@@ -164,7 +183,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		function add_custom_sensors_path( $paths = array() ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
-			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..' ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
+			$paths[] = $this->custom_sensor_path;
 
 			return $paths;
 		}
@@ -180,7 +199,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		function add_custom_events_path( $paths ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
-			$paths[] = trailingslashit( trailingslashit( dirname( __FILE__ ) . '/..' ) . 'wp-security-audit-log' );
+			$paths[] = $this->custom_alert_path;
 
 			return $paths;
 		}
