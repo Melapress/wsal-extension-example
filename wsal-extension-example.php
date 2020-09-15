@@ -32,13 +32,15 @@
 */
 
 /*
-	REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
+ REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
 */
 require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
-$plugin_text_domain =  'my-custom-textdomain';
-$wsal_extension = \WPWhiteSecurity\ActivityLog\Extensions\Core\WSAL_Extension_Core::get_instance( $plugin_text_domain );
-$wsal_extension->init();
-
+$core_settings = array(
+	'text_domain'      => 'wsal-example-extension',
+	'custom_alert_path' => trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log',
+	'custom_sensor_path' => trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' ),
+);
+$wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( $core_settings );
 /*
 	From here, you may now place your custom code. Examples of the functions
 	needed in a typical extension are provided as a basis, however you MUST
