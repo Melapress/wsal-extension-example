@@ -1,4 +1,3 @@
-
 # WP Activity Log Extension Core
 
 To keep things easier to manage and have a central repo with the core code for all our extensions, we use a master repository which contains the “core” files (these are parts of extensions which don't change) such as the PluginInstaller class, filters for adding custom sensors and so on.
@@ -70,3 +69,47 @@ When working on a new extension, you must ensure you include the core files in y
     	'custom_sensor_path' => trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' ),
     );
     $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( $core_settings );
+
+### Allowing sensors to load on front-end.
+
+1.  First we need to add a new checkbox to the Enable/Disable Events screen (ToggleAlerts) - to do this use the wsal_togglealerts_append_content_to_toggle filter to append your custom checkbox to whatever event ID you wish.
+
+````
+/**
+ * Append some extra content below an event in the ToggleAlerts view.
+ */
+function append_content_to_toggle( $alert_id ) {
+
+  if ( 9999 === $alert_id ) {
+    $frontend_events     = WSAL_Settings::get_frontend_events();
+    $enable_for_visitors = ( isset( $frontend_events['new_event'] ) && $frontend_events['new_event'] ) ? true : false;
+    ?>
+    <tr>
+      <td></td>
+      <td>
+        <input name="frontend-events[new_event]" type="checkbox" id="frontend-events[new_event]" value="1" <?php checked( $enable_for_visitors ); ?> />
+      </td>
+      <td colspan="2"><?php esc_html_e( 'Keep a log of this event on the front end?', 'wsal-gravity-forms' ); ?></td>
+    </tr>
+    <?php
+  }
+}
+````
+
+
+2.  Add filter wsal_load_on_frontend to check the front-end on/off settings array to see if the plugin needs to load.
+````
+function wsal_gravityforms_allow_sensor_on_frontend( $default, $frontend_events ) {
+  $should_load = ( $default || ! empty( $frontend_events['gravityforms'] ) ) ? true : false;;
+  return $should_load;
+}
+````
+
+3.  Use 'wsal_load_public_sensors' to add our sensor to the array of public sensors
+
+````
+function wsal_gravityforms_extension_load_public_sensors( $value ) {
+  $value[] = 'Gravity_Forms';
+  return $value;
+}
+````
