@@ -104,7 +104,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 					<?php
 					printf(
 						'<p>%1$s %2$s %3$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%4$s" data-plugins-network="%6$s" data-nonce="%5$s">%7$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-						esc_html__( 'This', 'wsal-extension-core' ),
+						esc_html__( 'The', 'wsal-extension-core' ),
 						$this->extention_plugin_name,
 						esc_html__( 'extension requires the WP Activity Log plugin to work.', 'wsal-extension-core' ),
 						esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
