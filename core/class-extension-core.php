@@ -37,17 +37,28 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		private $extention_plugin_name;
 
-		public function __construct( $extention_main_file_path, $text_domain ) {
-			$this->extension_text_domain  = $text_domain;
-			$this->custom_alert_path      = trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log';
-			$this->custom_sensor_path     = trailingslashit( trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
-			if ( is_admin() ) {
-				if( ! function_exists( 'get_plugin_data' ) ) {
-					require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-				}
-				$plugin_data                  = \get_plugin_data( $extention_main_file_path );
-				$this->extention_plugin_name = $plugin_data['Name'];
+		public function __construct( $extention_main_file_path = '', $text_domain = '' ) {
+			// Backward compatibilty to avoid site crashes when updating extensions.
+			if ( is_array( $extention_main_file_path ) ) {
+				$this->extension_text_domain = ( isset( $core_settings['text_domain'] ) ) ? $core_settings['text_domain'] : '';
+				$this->custom_alert_path     = ( isset( $core_settings['custom_alert_path'] ) ) ? $core_settings['custom_alert_path'] : '';
+				$this->custom_sensor_path    = ( isset( $core_settings['custom_sensor_path'] ) ) ? $core_settings['custom_sensor_path'] : '';
+				$this->extention_plugin_name = '';
 			}
+			// If we dont have array, then continue with the as normal.
+			else {
+				$this->extension_text_domain  = $text_domain;
+				$this->custom_alert_path      = trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log';
+				$this->custom_sensor_path     = trailingslashit( trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
+				if ( is_admin() ) {
+					if( ! function_exists( 'get_plugin_data' ) ) {
+						require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+					}
+					$plugin_data                  = \get_plugin_data( $extention_main_file_path );
+					$this->extention_plugin_name = $plugin_data['Name'];
+				}
+			}
+
 			$this->add_actions();
 		}
 
