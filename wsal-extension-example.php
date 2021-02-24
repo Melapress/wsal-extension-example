@@ -104,5 +104,4 @@ function wsal_extension_core_add_custom_meta_format( $value, $name ) {
 	Filter in our custom functions into WSAL.
  */
 add_filter( 'wsal_event_objects', 'wsal_extension_core_add_custom_event_objects', 10, 2 );
-add_filter( 'wsal_link_filter', 'wsal_extension_core_add_custom_meta_format_value', 10, 2 );
 add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_extension_core_add_custom_meta_format', 10, 2 );
