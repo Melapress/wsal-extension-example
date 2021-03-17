@@ -73,7 +73,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\PluginInsta
 				$result    = 'success';
 			}
 			// TODO: swap to a wp_send_json_success.
-			// TODO: use responses to determine if we succeded.
+			// TODO: use responses to determine if we succeeded.
 
 			wp_send_json( $result );
 		}
