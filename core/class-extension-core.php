@@ -120,7 +120,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 				}
 				/* Is premium version activated */
 				if (is_plugin_active( 'wp-security-audit-log-premium/wp-security-audit-log.php' )) {
-					$freeActivated = true;
+					$premiumActivated = true;
 				}
 
 				if ( $freeActivated || $premiumActivated ) {
