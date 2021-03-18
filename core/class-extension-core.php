@@ -110,21 +110,22 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 			if ( $plugin_installer->is_plugin_installed( 'wp-security-audit-log-premium/wp-security-audit-log.php' )) {
 				$premiumInstalled = true;
 			}
-			/* Is free version activated */
-			if (is_plugin_active( 'wp-security-audit-log/wp-security-audit-log.php' )) {
-				$freeActivated = true;
-			}
-			/* Is premium version activated */
-			if (is_plugin_active( 'wp-security-audit-log-premium/wp-security-audit-log.php' )) {
-				$freeActivated = true;
-			}
 			/* End checks */
 
 			if ( $freeInstalled || $premiumInstalled ) {
 				/* We have plugin installed */
+				/* Is free version activated */
+				if (is_plugin_active( 'wp-security-audit-log/wp-security-audit-log.php' )) {
+					$freeActivated = true;
+				}
+				/* Is premium version activated */
+				if (is_plugin_active( 'wp-security-audit-log-premium/wp-security-audit-log.php' )) {
+					$freeActivated = true;
+				}
+
 				if ( $freeActivated || $premiumActivated ) {
 					/* There is installed and activated plugin - bounce */
-					exit();
+					return;
 				} else {
 					?>
 					<div class="notice notice-success is-dismissible wsal-installer-notice">
