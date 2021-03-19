@@ -37,6 +37,19 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		private $extention_plugin_name;
 
+		/**
+		 * Extension plugin file path.
+		 *
+		 * TODO: The name of that variable is incorrect and missliding
+		 * it holds array currently (newer versions)
+		 * the name is taken from the constructor parameter which will ease future refactoring
+		 * currently only one of our extensions is not passing array (gravity forms)
+		 * Refactor that (along with the constructor of this class and documentation) in a proper way
+		 *
+		 * @var string
+		 */
+		private $extention_main_file_path;
+
 		public function __construct( $extention_main_file_path = '', $text_domain = '' ) {
 			// Backward compatibilty to avoid site crashes when updating extensions.
 			if ( is_array( $extention_main_file_path ) ) {
@@ -50,14 +63,9 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 				$this->extension_text_domain  = $text_domain;
 				$this->custom_alert_path      = trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log';
 				$this->custom_sensor_path     = trailingslashit( trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
-				if ( is_admin() ) {
-					if( ! function_exists( 'get_plugin_data' ) ) {
-						require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-					}
-					$plugin_data                  = \get_plugin_data( $extention_main_file_path );
-					$this->extention_plugin_name = $plugin_data['Name'];
-				}
 			}
+
+			$this->extention_main_file_path = $extention_main_file_path;
 
 			$this->add_actions();
 		}
@@ -150,7 +158,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 						'<p>%1$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
 						sprintf(
 							esc_html__( 'The %s extension requires the WP Activity Log plugin to work.', 'wsal-extension-core' ),
-							$this->extention_plugin_name
+							$this->getExtentionPluginName()
                         ),
 						esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 						esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
@@ -258,6 +266,44 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 			$paths[] = $this->custom_alert_path;
 
 			return $paths;
+		}
+
+		/**
+		 * Getter for plugin name
+		 *
+		 * @since 1.1.0
+		 *
+		 * @return string
+		 */
+		public function getExtentionPluginName() {
+			if ( '' === trim( $this->extention_plugin_name ) ) {
+				$this->setExtentionPluginName( '' );
+			}
+
+			return $this->extention_plugin_name;
+		}
+
+		/**
+		 * Setter for plugin name
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param string $extentionPluginName
+		 *
+		 * @return void
+		 */
+		public function setExtentionPluginName( $extentionPluginName ) {
+			if ( '' === trim( $extentionPluginName ) && ! is_array( $this->extention_main_file_path ) ) {
+				if ( is_admin() ) {
+					if ( ! \function_exists( 'get_plugin_data' ) ) {
+						require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+					}
+					$plugin_data                 = \get_plugin_data( $this->extention_main_file_path );
+					$this->extention_plugin_name = $plugin_data['Name'];
+				}
+			} else {
+				$this->extention_plugin_name = $extentionPluginName;
+			}
 		}
 
 	}
