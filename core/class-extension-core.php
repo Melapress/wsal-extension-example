@@ -35,16 +35,10 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 *
 		 * @var string
 		 */
-		private $extention_plugin_name;
+		private $extention_plugin_name = null;
 
 		/**
 		 * Extension plugin file path.
-		 *
-		 * TODO: The name of that variable is incorrect and missliding
-		 * it holds array currently (newer versions)
-		 * the name is taken from the constructor parameter which will ease future refactoring
-		 * currently only one of our extensions is not passing array (gravity forms)
-		 * Refactor that (along with the constructor of this class and documentation) in a proper way
 		 *
 		 * @var string
 		 */
@@ -276,35 +270,21 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 * @return string
 		 */
 		public function getExtentionPluginName() {
-			if ( '' === trim( $this->extention_plugin_name ) ) {
-				$this->setExtentionPluginName( '' );
+			if ( null === $this->extention_plugin_name ) {
+				$this->extention_plugin_name = '';
+
+				if ( ! is_array( $this->extention_main_file_path ) ) {
+					if ( is_admin() ) {
+						if ( ! \function_exists( 'get_plugin_data' ) ) {
+							require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+						}
+						$plugin_data                 = \get_plugin_data( $this->extention_main_file_path );
+						$this->extention_plugin_name = $plugin_data['Name'];
+					}
+				}
 			}
 
 			return $this->extention_plugin_name;
 		}
-
-		/**
-		 * Setter for plugin name
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param string $extentionPluginName
-		 *
-		 * @return void
-		 */
-		public function setExtentionPluginName( $extentionPluginName ) {
-			if ( '' === trim( $extentionPluginName ) && ! is_array( $this->extention_main_file_path ) ) {
-				if ( is_admin() ) {
-					if ( ! \function_exists( 'get_plugin_data' ) ) {
-						require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-					}
-					$plugin_data                 = \get_plugin_data( $this->extention_main_file_path );
-					$this->extention_plugin_name = $plugin_data['Name'];
-				}
-			} else {
-				$this->extention_plugin_name = $extentionPluginName;
-			}
-		}
-
 	}
 }
