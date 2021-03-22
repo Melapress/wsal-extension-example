@@ -45,23 +45,13 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		private $extention_main_file_path;
 
 		/**
-		 * Was the user been notified about not active activity log plugin
+		 * Was the user been notified with message already
 		 *
 		 * @since 1.1.0
 		 *
 		 * @var boolean
 		 */
-		private static $messageMainPluginNotActiveSent = false;
-
-		/**
-		 * Was the user been notified about not installed activity log plugin
-		 *
-		 * @since 1.1.0
-		 *
-		 * @var boolean
-		 */
-		private static $messageMainPluginNotInstalledSent = false;
-
+		private static $adminNoticeAlreadyShown = false;
 
 		public function __construct( $extention_main_file_path = '', $text_domain = '' ) {
 			// Backward compatibilty to avoid site crashes when updating extensions.
@@ -149,7 +139,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 					return;
 				} else {
 
-					if ( ! self::$messageMainPluginNotActiveSent ) {
+					if ( ! self::$adminNoticeAlreadyShown ) {
 					/* Notify the user that the activity log is not active */
 					?>
 					<div class="notice notice-success is-dismissible wsal-installer-notice">
@@ -169,11 +159,11 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 						?>
 					</div>
 					<?php
-						self::$messageMainPluginNotActiveSent = true;
+						self::$adminNoticeAlreadyShown = true;
 					}
 				}
 			} elseif ( ! class_exists( 'WpSecurityAuditLog' ) ) {
-				if ( ! self::$messageMainPluginNotInstalledSent ) {
+				if ( ! self::$adminNoticeAlreadyShown ) {
 					/* Notify the user that the activity log is not installed */
 				?>
                 <div class="notice notice-success is-dismissible wsal-installer-notice">
@@ -192,7 +182,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 					?>
                 </div>
 			<?php
-					self::$messageMainPluginNotInstalledSent = true;
+					self::$adminNoticeAlreadyShown = true;
 				}
 			};
 		}
