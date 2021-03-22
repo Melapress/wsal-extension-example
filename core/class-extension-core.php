@@ -44,6 +44,13 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		private $extention_main_file_path;
 
+		/**
+		 * Was the user been notified about not active activity log plugin
+		 *
+		 * @var boolean
+		 */
+		private static $messageMainPluginNotActiveSent = false;
+
 		public function __construct( $extention_main_file_path = '', $text_domain = '' ) {
 			// Backward compatibilty to avoid site crashes when updating extensions.
 			if ( is_array( $extention_main_file_path ) ) {
@@ -129,6 +136,9 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 					/* There is installed and activated plugin - bounce */
 					return;
 				} else {
+
+					if ( ! self::$messageMainPluginNotActiveSent ) {
+					/* Notify the user that the activity log is not active */
 					?>
 					<div class="notice notice-success is-dismissible wsal-installer-notice">
 						<?php
@@ -144,6 +154,8 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 						?>
 					</div>
 					<?php
+						self::$messageMainPluginNotActiveSent = true;
+					}
 				}
 			} elseif ( ! class_exists( 'WpSecurityAuditLog' ) ) { ?>
                 <div class="notice notice-success is-dismissible wsal-installer-notice">
