@@ -47,6 +47,8 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		/**
 		 * Was the user been notified about not active activity log plugin
 		 *
+		 * @since 1.1.0
+		 *
 		 * @var boolean
 		 */
 		private static $messageMainPluginNotActiveSent = false;
