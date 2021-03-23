@@ -63,8 +63,13 @@ jQuery( document ).ready(
 
 		jQuery( ".activate-addon" ).click(
 			function (e) {
-				var PluginSlug = jQuery( this ).attr( 'data-plugin-slug' );
-				jQuery('[data-plugin="'+ PluginSlug +'"] .activate a')[0].click();
+				var PluginSlug = jQuery(this).attr('data-plugin-slug');
+				let auditPlugin = jQuery('[data-plugin="' + PluginSlug + '"] .activate a')[0];
+				if (typeof auditPlugin !== 'undefined') {
+					auditPlugin.click();
+				} else {
+					jQuery('.wsal-installer-notice').remove();
+				}
 			}
 		);
 
