@@ -80,11 +80,9 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 			add_action( 'admin_init', array( $this, 'init_install_notice' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'wp_ajax_dismiss_notice', array( $this, 'dismiss_notice' ) );
-			/**
-			 * Hook into WSAL's action that runs before sensors get loaded.
-			 */
-			add_action( 'wsal_before_sensor_load', array( $this, 'add_custom_sensors_and_events_dirs' ) );
 			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'add_custom_events_path' ) );
+			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'add_custom_sensors_path' ) );
 		}
 
 		/**
@@ -240,16 +238,6 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		function dismiss_notice() {
 			update_option( 'wsal_core_notice_dismissed', true );
-		}
-
-		/**
-		 * Used to hook into the `wsal_before_sensor_load` action to add some filters
-		 * for including custom sensor and event directories.
-		 */
-		function add_custom_sensors_and_events_dirs( $sensor ) {
-			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'add_custom_sensors_path' ) );
-			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'add_custom_events_path' ) );
-			return $sensor;
 		}
 
 		/**
