@@ -34,14 +34,14 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 *
 		 * @var string
 		 */
-		private $extention_plugin_name = null;
+		private $extension_plugin_name = null;
 
 		/**
 		 * Extension plugin file path.
 		 *
 		 * @var string
 		 */
-		private $extention_main_file_path;
+		private $extension_main_file_path;
 
 		/**
 		 * Was the user been notified with message already
@@ -52,27 +52,22 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 */
 		private static $adminNoticeAlreadyShown = false;
 
-		public function __construct( $extention_main_file_path = '', $text_domain = '' ) {
+		public function __construct( $extension_main_file_path = '', $text_domain = '' ) {
 			// Backward compatibilty to avoid site crashes when updating extensions.
-			if ( is_array( $extention_main_file_path ) ) {
-				$this->extension_text_domain = ( isset( $core_settings['text_domain'] ) ) ? $core_settings['text_domain'] : '';
-				$this->custom_alert_path     = ( isset( $core_settings['custom_alert_path'] ) ) ? $core_settings['custom_alert_path'] : '';
-				$this->custom_sensor_path    = ( isset( $core_settings['custom_sensor_path'] ) ) ? $core_settings['custom_sensor_path'] : '';
-			} else {
-				// If we dont have array, then continue with the as normal.
-				$this->extension_main_file_path = $extension_main_file_path;
-				$this->extension_text_domain    = $text_domain;
-				$this->custom_alert_path        = trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log';
-				$this->custom_sensor_path       = trailingslashit( trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
+			if ( is_array( $extension_main_file_path ) ) {
+				$this->extension_text_domain = ( isset( $extension_main_file_path['text_domain'] ) ) ? $extension_main_file_path['text_domain'] : '';
+				$this->custom_alert_path     = ( isset( $extension_main_file_path['custom_alert_path'] ) ) ? $extension_main_file_path['custom_alert_path'] : '';
+				$this->custom_sensor_path    = ( isset( $extension_main_file_path['custom_sensor_path'] ) ) ? $extension_main_file_path['custom_sensor_path'] : '';
+				$this->extension_plugin_name = '';
 			}
 			// If we dont have array, then continue with the as normal.
 			else {
 				$this->extension_text_domain  = $text_domain;
-				$this->custom_alert_path      = trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log';
-				$this->custom_sensor_path     = trailingslashit( trailingslashit( dirname( $extention_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
+				$this->custom_alert_path      = trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log';
+				$this->custom_sensor_path     = trailingslashit( trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
 			}
 
-			$this->extention_main_file_path = $extention_main_file_path;
+			$this->extension_main_file_path = $extension_main_file_path;
 
 			$this->add_actions();
 		}
@@ -84,11 +79,9 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 			add_action( 'admin_init', array( $this, 'init_install_notice' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'wp_ajax_dismiss_notice', array( $this, 'dismiss_notice' ) );
-			/**
-			 * Hook into WSAL's action that runs before sensors get loaded.
-			 */
-			add_action( 'wsal_before_sensor_load', array( $this, 'add_custom_sensors_and_events_dirs' ) );
 			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'add_custom_events_path' ) );
+			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'add_custom_sensors_path' ) );
 		}
 
 		/**
@@ -256,17 +249,6 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		}
 
 		/**
-		 * Used to hook into the `wsal_before_sensor_load` action to add some filters
-		 * for including custom sensor and event directories.
-		 */
-		function add_custom_sensors_and_events_dirs( $sensor ) {
-			add_filter( 'wsal_custom_sensors_classes_dirs', array( $this, 'add_custom_sensors_path' ) );
-			add_filter( 'wsal_custom_alerts_dirs', array( $this, 'add_custom_events_path' ) );
-
-			return $sensor;
-		}
-
-		/**
 		 * Adds a new path to the sensors directory array which is checked for when the
 		 * plugin loads the sensors.
 		 *
@@ -306,21 +288,21 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 * @return string
 		 */
 		public function getExtentionPluginName() {
-			if ( null === $this->extention_plugin_name ) {
-				$this->extention_plugin_name = '';
+			if ( null === $this->extension_plugin_name ) {
+				$this->extension_plugin_name = '';
 
-				if ( ! is_array( $this->extention_main_file_path ) ) {
+				if ( ! is_array( $this->extension_main_file_path ) ) {
 					if ( is_admin() ) {
 						if ( ! \function_exists( 'get_plugin_data' ) ) {
 							require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 						}
-						$plugin_data                 = \get_plugin_data( $this->extention_main_file_path );
-						$this->extention_plugin_name = $plugin_data['Name'];
+						$plugin_data                 = \get_plugin_data( $this->extension_main_file_path );
+						$this->extension_plugin_name = $plugin_data['Name'];
 					}
 				}
 			}
 
-			return $this->extention_plugin_name;
+			return $this->extension_plugin_name;
 		}
 	}
 }
