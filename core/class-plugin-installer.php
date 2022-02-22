@@ -1,4 +1,5 @@
-<?php
+<?php  // phpcs:disable WordPress.Files.FileName.NotHyphenatedLowercase
+// phpcs:disable Generic.WhiteSpace.ArbitraryParenthesesSpacing.FoundEmpty
 
 namespace WPWhiteSecurity\ActivityLog\Extensions\Common;
 
@@ -11,6 +12,9 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\PluginInsta
 	 */
 	class PluginInstaller {
 
+		/**
+		 * Plugin installer contructor.
+		 */
 		public function __construct() {
 			$this->register();
 		}
