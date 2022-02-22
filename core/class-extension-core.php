@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable WordPress.Files.FileName.NotHyphenatedLowercase
 
 namespace WPWhiteSecurity\ActivityLog\Extensions\Common;
 
@@ -6,6 +6,9 @@ use \WPWhiteSecurity\ActivityLog\Extensions\Common\PluginInstaller as PluginInst
 
 if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 
+	/**
+	 * Main WSAL extension core class.
+	 */
 	class Core {
 
 		/**
@@ -51,8 +54,14 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 *
 		 * @var boolean
 		 */
-		private static $adminNoticeAlreadyShown = false;
+		private static $admin_notice_already_shown = false;
 
+		/**
+		 * Core constructor
+		 *
+		 * @param string $extension_main_file_path - Plugins mail file path.
+		 * @param string $text_domain - Text domain.
+		 */
 		public function __construct( $extension_main_file_path = '', $text_domain = '' ) {
 			// Backward compatibilty to avoid site crashes when updating extensions.
 			if ( is_array( $extension_main_file_path ) ) {
@@ -60,12 +69,11 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 				$this->custom_alert_path     = ( isset( $extension_main_file_path['custom_alert_path'] ) ) ? $extension_main_file_path['custom_alert_path'] : '';
 				$this->custom_sensor_path    = ( isset( $extension_main_file_path['custom_sensor_path'] ) ) ? $extension_main_file_path['custom_sensor_path'] : '';
 				$this->extension_plugin_name = '';
-			}
-			// If we dont have array, then continue with the as normal.
-			else {
-				$this->extension_text_domain  = $text_domain;
-				$this->custom_alert_path      = trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log';
-				$this->custom_sensor_path     = trailingslashit( trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
+			} else {
+				// If we don't have an array, then continue with the as normal.
+				$this->extension_text_domain = $text_domain;
+				$this->custom_alert_path     = trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log';
+				$this->custom_sensor_path    = trailingslashit( trailingslashit( dirname( $extension_main_file_path ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' );
 			}
 
 			$this->extension_main_file_path = $extension_main_file_path;
@@ -101,91 +109,98 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		/**
 		 * Display admin notice if WSAL is not installed.
 		 */
-		function install_notice() {
+		public function install_notice() {
 			$plugin_installer = new PluginInstaller();
 			$screen           = get_current_screen();
 
-			$freeInstalled = false;
-			$premiumInstalled = false;
-			$freeActivated = false;
-			$premiumActivated = false;
+			$free_installed    = false;
+			$premium_installed = false;
+			$free_activated    = false;
+			$premium_activated = false;
 
-			/* Starting checks */
-			/* Is there free version installed */
-			if ( $plugin_installer->is_plugin_installed( 'wp-security-audit-log/wp-security-audit-log.php' )) {
-				$freeInstalled = true;
+			// Starting checks.
+			// Is there free version installed?
+			if ( $plugin_installer->is_plugin_installed( 'wp-security-audit-log/wp-security-audit-log.php' ) ) {
+				$free_installed = true;
 			}
-			/* Is there premium version installed */
-			if ( $plugin_installer->is_plugin_installed( 'wp-security-audit-log-premium/wp-security-audit-log.php' )) {
-				$premiumInstalled = true;
+			// Is there premium version installed?
+			if ( $plugin_installer->is_plugin_installed( 'wp-security-audit-log-premium/wp-security-audit-log.php' ) ) {
+				$premium_installed = true;
 			}
-			/* End checks */
+			// End checks.
 
-			if ( $freeInstalled || $premiumInstalled ) {
-				/* We have plugin installed */
-				/* Is free version activated */
-				if (is_plugin_active( 'wp-security-audit-log/wp-security-audit-log.php' )) {
-					$freeActivated = true;
+			if ( $free_installed || $premium_installed ) {
+				// We have plugin installed.
+				// Is free version active?
+				if ( is_plugin_active( 'wp-security-audit-log/wp-security-audit-log.php' ) ) {
+					$free_activated = true;
 				}
-				/* Is premium version activated */
-				if (is_plugin_active( 'wp-security-audit-log-premium/wp-security-audit-log.php' )) {
-					$premiumActivated = true;
+				// Is premium version active?
+				if ( is_plugin_active( 'wp-security-audit-log-premium/wp-security-audit-log.php' ) ) {
+					$premium_activated = true;
 				}
 
-				if ( $freeActivated || $premiumActivated ) {
-					/* There is installed and activated plugin - bounce */
+				if ( $free_activated || $premium_activated ) {
+					// There is installed and activated plugin - bounce.
 					return;
 				} else {
 
-					if ( ! self::$adminNoticeAlreadyShown ) {
-					/* Notify the user that the activity log is not active */
-					?>
+					if ( ! self::$admin_notice_already_shown ) {
+						// Notify the user that the WP Activity Log plugin is not active.
+						?>
 					<div class="notice notice-success is-dismissible wsal-installer-notice">
 						<?php
 						printf(
 							'<p>%1$s &nbsp;&nbsp;<button class="activate-addon button button-primary" data-plugin-slug="wp-security-audit-log%6$s/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
 							sprintf(
+								/* translators: %s: pluign name. */
 								esc_html__( 'The %s extension requires the WP Activity Log plugin to work, which is already installed on your website.', 'wsal-extension-core' ),
-								$this->getExtentionPluginName()
+								$this->get_extention_plugin_name()
 							),
 							esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 							esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 							( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
 							esc_html__( 'Activate WP Activity Log.', 'wp-security-audit-log' ),
-							(($premiumInstalled)?'-premium':'')
+							( ( $premium_installed ) ? '-premium' : '' )
 						);
 						?>
 					</div>
-					<?php
-						self::$adminNoticeAlreadyShown = true;
+						<?php
+						self::$admin_notice_already_shown = true;
 					}
 				}
 			} elseif ( ! class_exists( 'WpSecurityAuditLog' ) ) {
-				if ( ! self::$adminNoticeAlreadyShown ) {
-					/* Notify the user that the activity log is not installed */
-				?>
-                <div class="notice notice-success is-dismissible wsal-installer-notice">
+				if ( ! self::$admin_notice_already_shown ) {
+					// Notify the user that the WP Activity Log is not installed.
+					?>
+				<div class="notice notice-success is-dismissible wsal-installer-notice">
 					<?php
 					printf(
 						'<p>%1$s &nbsp;&nbsp;<button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
 						sprintf(
+							/* translators: %s: pluign name. */
 							esc_html__( 'The %s extension requires the WP Activity Log plugin to work.', 'wsal-extension-core' ),
-							$this->getExtentionPluginName()
-                        ),
+							$this->get_extention_plugin_name()
+						),
 						esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 						esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 						( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
 						esc_html__( 'Install WP Activity Log.', 'wsal-extension-core' )
 					);
 					?>
-                </div>
-			<?php
-					self::$adminNoticeAlreadyShown = true;
+				</div>
+					<?php
+					self::$admin_notice_already_shown = true;
 				}
 			};
 		}
 
-		function init_install_notice() {
+		/**
+		 * Notice to alert people to install main WSAL plugin.
+		 *
+		 * @return void
+		 */
+		public function init_install_notice() {
 			// Check if main plugin is installed.
 			if ( ! class_exists( 'WpSecurityAuditLog' ) && ! class_exists( 'WSAL_AlertManager' ) ) {
 				// Check if the notice was already dismissed by the user.
@@ -210,7 +225,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		/**
 		 * Load our js file to handle ajax.
 		 */
-		function enqueue_scripts() {
+		public function enqueue_scripts() {
 			wp_enqueue_script(
 				'wsal-core-scripts',
 				plugins_url( 'assets/js/scripts.js', __FILE__ ),
@@ -236,7 +251,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		/**
 		 * Update option if user clicks dismiss.
 		 */
-		function dismiss_notice() {
+		public function dismiss_notice() {
 			update_option( 'wsal_core_notice_dismissed', true );
 		}
 
@@ -249,7 +264,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 * @return array
 		 * @since  1.0.0
 		 */
-		function add_custom_sensors_path( $paths = array() ) {
+		public function add_custom_sensors_path( $paths = array() ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
 			$paths[] = $this->custom_sensor_path;
 
@@ -265,7 +280,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 * @return array
 		 * @since  1.0.0
 		 */
-		function add_custom_events_path( $paths ) {
+		public function add_custom_events_path( $paths ) {
 			$paths   = ( is_array( $paths ) ) ? $paths : array();
 			$paths[] = $this->custom_alert_path;
 
@@ -279,14 +294,14 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 *
 		 * @return string
 		 */
-		public function getExtentionPluginName() {
+		public function get_extention_plugin_name() {
 			if ( null === $this->extension_plugin_name ) {
 				$this->extension_plugin_name = '';
 
 				if ( ! is_array( $this->extension_main_file_path ) ) {
 					if ( is_admin() ) {
 						if ( ! \function_exists( 'get_plugin_data' ) ) {
-							require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+							require_once ABSPATH . 'wp-admin/includes/plugin.php';
 						}
 						$plugin_data                 = \get_plugin_data( $this->extension_main_file_path );
 						$this->extension_plugin_name = $plugin_data['Name'];
