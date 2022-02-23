@@ -1,7 +1,7 @@
 <?php // phpcs:disable WordPress.Files.FileName.NotHyphenatedLowercase
 
 /**
- * Custom Sensors for Gravity Forms plugin.
+ * Custom Sensors for PLUGINNAME plugin.
  *
  * Class file for alert manager.
  *
