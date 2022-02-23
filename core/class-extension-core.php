@@ -154,7 +154,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 							sprintf(
 								/* translators: %s: pluign name. */
 								esc_html__( 'The %s extension requires the WP Activity Log plugin to work, which is already installed on your website.', 'wsal-extension-core' ),
-								$this->get_extention_plugin_name()
+								$this->get_extension_plugin_name()
 							),
 							esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 							esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
@@ -188,7 +188,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 						sprintf(
 							/* translators: %s: pluign name. */
 							esc_html__( 'The %s extension requires the WP Activity Log plugin to work.', 'wsal-extension-core' ),
-							$this->get_extention_plugin_name()
+							$this->get_extension_plugin_name()
 						),
 						esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 						esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
@@ -302,7 +302,7 @@ if ( ! class_exists( '\WPWhiteSecurity\ActivityLog\Extensions\Common\Core' ) ) {
 		 *
 		 * @return string
 		 */
-		public function get_extention_plugin_name() {
+		public function get_extension_plugin_name() {
 			if ( null === $this->extension_plugin_name ) {
 				$this->extension_plugin_name = '';
 
