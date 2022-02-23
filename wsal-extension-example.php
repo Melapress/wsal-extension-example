@@ -36,6 +36,7 @@
 */
 require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
 $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( __FILE__, 'wsal-example-extension' );
+
 /*
 	From here, you may now place your custom code. Examples of the functions
 	needed in a typical extension are provided as a basis, however you MUST
@@ -52,7 +53,7 @@ $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( __FILE
  */
 function wsal_extension_core_add_custom_event_objects( $objects ) {
 	// $new_objects = array(
-	// 	'my_custom_obj' => esc_html__( 'My Object Label (Typically the name of the plugin your creating an event for)', 'wp-security-audit-log' ),
+	// 'my_custom_obj' => esc_html__( 'My Object Label (Typically the name of the plugin your creating an event for)', 'wp-security-audit-log' ),
 	// );
 	//
 	// combine the two arrays.
@@ -71,7 +72,7 @@ function wsal_extension_core_add_custom_event_objects( $objects ) {
  */
 function wsal_extension_core_add_custom_ignored_cpt( $post_types ) {
 	// $new_post_types = array(
-	// 	'my_cpt_slug',    // Your custom post types slug.
+	// 'my_cpt_slug',    // Your custom post types slug.
 	// );
 	//
 	// // combine the two arrays.
@@ -91,10 +92,10 @@ function wsal_extension_core_add_custom_ignored_cpt( $post_types ) {
 function wsal_extension_core_add_custom_meta_format( $value, $name ) {
 	// $check_value = (string) $value;
 	// if ( '%MyCustomVariable%' === $name ) {
-	// 	if ( 'NULL' !== $check_value ) {
-	// 		return '<a target="_blank" href="' . esc_url( $value ) . '">' . __( 'View form in the editor', 'wp-security-audit-log' ) . '</a>';
-	// 	}
-	// 	return $value;
+	// if ( 'NULL' !== $check_value ) {
+	// return '<a target="_blank" href="' . esc_url( $value ) . '">' . __( 'View form in the editor', 'wp-security-audit-log' ) . '</a>';
+	// }
+	// return $value;
 	// }
 	//
 	// return $value;
