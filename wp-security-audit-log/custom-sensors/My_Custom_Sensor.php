@@ -7,7 +7,7 @@
  *
  * @since   1.0.0
  * @package wsal
- * @subpackage wsal-gravity-forms
+ * @subpackage wsal-PLUGINNAME
  */
 class WSAL_Sensors_My_Custom_Sensor extends WSAL_AbstractSensor {
 
