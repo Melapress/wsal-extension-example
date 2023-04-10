@@ -17,10 +17,10 @@ Most of your changes/custom code will occur in the main plugin file, as well as 
 
 ## Registering events
 
-Your array of custom events can be added via "wp-security-audit-log/custom-alerts.php" - for details on this array see the [documentation.](https://wpactivitylog.com/support/kb/create-custom-events-wordpress-activity-log/)
+Your array of custom events can be added via "wp-security-audit-log/class-my-custom-alerts.php" - for details on this array see the [documentation.](https://wpactivitylog.com/support/kb/create-custom-events-wordpress-activity-log/)
 
 ## Custom Sensor
 
-First, be sure to give your sensor a unique name to avoid conflict. The default name "WSAL_Sensors_My_Custom_Sensor" should never be used.
+First, be sure to give your sensor a unique name to avoid conflict. The default name "My_Custom_Sensor" should never be used.
 
 The file is a simple placeholder class, ready to be filled with whatever you wish so have fun!.
