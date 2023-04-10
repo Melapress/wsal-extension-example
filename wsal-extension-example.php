@@ -14,6 +14,8 @@
  * @subpackage Wsal Custom Events Loader
  */
 
+use WSAL\Helpers\Classes_Helper;
+
 /*
 	Copyright(c) 2020  WP White Security  (email : info@wpwhitesecurity.com)
 
@@ -62,47 +64,47 @@ function wsal_extension_core_add_custom_event_objects( $objects ) {
 	// return $objects;
 }
 
-/**
- * Add a custom post type to the ignored list.
- * If your plugin uses a CPT, you may wish to ensure WSAL does not treat
- * the post as a regular post (reporting updates, creation etc). Use your
- * CPTs slug to add it to the list of "igored post types".
- *
- * @param array $post_types Current list of post types to ignore.
- */
-function wsal_extension_core_add_custom_ignored_cpt( $post_types ) {
-	// $new_post_types = array(
-	// 'my_cpt_slug',    // Your custom post types slug.
-	// );
-	//
-	// // combine the two arrays.
-	// $post_types = array_merge( $post_types, $new_post_types );
-	//
-	// return $post_types;
-}
-
-/**
- * Add our own meta formatter. If you wish to create your own custom variable to be
- * used within your custom event message etc, you can register the variable here as well
- * as specify how to handle it.
- *
- * @param string $value Value of variable.
- * @param string $name  Variable name we wish to change.
- */
-function wsal_extension_core_add_custom_meta_format( $value, $name ) {
-	// $check_value = (string) $value;
-	// if ( '%MyCustomVariable%' === $name ) {
-	// if ( 'NULL' !== $check_value ) {
-	// return '<a target="_blank" href="' . esc_url( $value ) . '">' . __( 'View form in the editor', 'wp-security-audit-log' ) . '</a>';
-	// }
-	// return $value;
-	// }
-	//
-	// return $value;
-}
-
 /*
 	Filter in our custom functions into WSAL.
  */
 add_filter( 'wsal_event_objects', 'wsal_extension_core_add_custom_event_objects', 10, 2 );
-add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_extension_core_add_custom_meta_format', 10, 2 );
+
+add_action(
+	'wsal_sensors_manager_add',
+	/**
+	* Adds sensors classes to the Class Helper
+	*
+	* @return void
+	*
+	* @since latest
+	*/
+	function () {
+		require_once __DIR__ . '/wp-security-audit-log/sensors/class-my-custom-sensor.php';
+
+		Classes_Helper::add_to_class_map(
+			array(
+				'WSAL\\Plugin_Sensors\\My_Custom_Sensor' => __DIR__ . '/wp-security-audit-log/sensors/class-my-custom-sensor.php',
+			)
+		);
+	}
+);
+
+add_action(
+	'wsal_custom_alerts_register',
+	/**
+	* Adds sensors classes to the Class Helper
+	*
+	* @return void
+	*
+	* @since latest
+	*/
+	function () {
+		require_once __DIR__ . '/wp-security-audit-log/class-my-custom-alerts.php';
+
+		Classes_Helper::add_to_class_map(
+			array(
+				'WSAL\\Custom_Alerts\\My_Custom_Alerts' => __DIR__ . '/wp-security-audit-log/class-my-custom-alerts.php',
+			)
+		);
+	}
+);
