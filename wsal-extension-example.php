@@ -61,7 +61,7 @@ function wsal_extension_core_add_custom_event_objects( $objects ) {
 	// combine the two arrays.
 	// $objects = array_merge( $objects, $new_objects );
 	//
-	// return $objects;
+	return $objects;
 }
 
 /*
