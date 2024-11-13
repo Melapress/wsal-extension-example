@@ -34,7 +34,7 @@ use WSAL\Helpers\Classes_Helper;
 */
 
 /*
- REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
+REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
 */
 require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
 $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( __FILE__, 'wsal-example-extension' );
@@ -54,14 +54,14 @@ $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( __FILE
  * @param array $objects array of objects current registered within WSAL.
  */
 function wsal_extension_core_add_custom_event_objects( $objects ) {
-	// $new_objects = array(
-	// 'my_custom_obj' => esc_html__( 'My Object Label (Typically the name of the plugin your creating an event for)', 'wp-security-audit-log' ),
-	// );
-	//
+	$new_objects = array(
+		'my_custom_obj' => esc_html__( 'My Object Label (Typically the name of the plugin your creating an event for)', 'wp-security-audit-log' ),
+	);
+
 	// combine the two arrays.
-	// $objects = array_merge( $objects, $new_objects );
-	//
-	// return $objects;
+	$objects = array_merge( $objects, $new_objects );
+
+	return $objects;
 }
 
 /*
